@@ -13,6 +13,11 @@ namespace PhoneApp1
     {
         private NavigationService mNavigationService;
 
+        public MainPageVM()
+        {
+            Settings.AddSetting("Username", "swa53");
+            Settings.AddSetting("Password", "5jun38");
+        }
 
         public string LogInOrOutText
         {

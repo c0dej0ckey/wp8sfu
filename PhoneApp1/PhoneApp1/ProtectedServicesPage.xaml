@@ -34,9 +34,9 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox ItemsSource="{Binding Services}" SelectionChanged="ServiceChanged" />
+            <ListBox x:Name="ServiceListBox" ItemsSource="{Binding Services}" FontSize="24" SelectionChanged="ServiceChanged" Visibility="{Binding ServiceListVisibility}" />
             
-            <phone:WebBrowser Visibility="Visible" />
+            <phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True" Navigated="Browser_Navigated"    />
             
         </Grid>
     </Grid>
