@@ -88,6 +88,12 @@
                 </Button.Content>
             </Button>
             
+            <Button Grid.Column="0" Grid.Row="1" Command="{Binding MapsCommand}">
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" Text="Maps" TextAlignment="Center" />
+                </Button.Content>
+            </Button>
+            
         </Grid>
         
             <!--Uncomment to see an alignment grid to help ensure your controls are

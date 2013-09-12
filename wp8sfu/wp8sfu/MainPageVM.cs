@@ -58,6 +58,11 @@ namespace wp8sfu
             get { return new DelegateCommand(ExecuteBooks, CanExecuteBooks); }
         }
 
+        public ICommand MapsCommand
+        {
+            get { return new DelegateCommand(ExecuteMaps, CanExecuteMaps); }
+        }
+
         private bool CanExecuteLogin(object parameter)
         {
             return true;
@@ -100,6 +105,18 @@ namespace wp8sfu
         {
             NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
             navigationService.Navigate(new Uri("/BooksPage.xaml", UriKind.Relative));
+        }
+
+        private bool CanExecuteMaps(object parameter)
+        {
+            return true;
+
+        }
+
+        private void ExecuteMaps(object parameter)
+        {
+            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+            navigationService.Navigate(new Uri("/MapsPage.xaml", UriKind.Relative));
         }
     }
 }
