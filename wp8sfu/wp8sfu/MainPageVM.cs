@@ -53,15 +53,9 @@ namespace wp8sfu
             get { return new DelegateCommand(ExecuteCourses, CanExecuteCourses); }
         }
 
-        private bool CanExecuteCourses(object parameter)
+        public ICommand BooksCommand
         {
-            return true;
-        }
-
-        private void ExecuteCourses(object parameter)
-        {
-            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            navigationService.Navigate(new Uri("/SchedulePage.xaml", UriKind.Relative));
+            get { return new DelegateCommand(ExecuteBooks, CanExecuteBooks); }
         }
 
         private bool CanExecuteLogin(object parameter)
@@ -86,5 +80,26 @@ namespace wp8sfu
             navigationService.Navigate(new Uri("/ProtectedServicesPage.xaml", UriKind.Relative));
         }
 
+        private bool CanExecuteCourses(object parameter)
+        {
+            return true;
+        }
+
+        private void ExecuteCourses(object parameter)
+        {
+            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+            navigationService.Navigate(new Uri("/SchedulePage.xaml", UriKind.Relative));
+        }
+
+        private bool CanExecuteBooks(object parameter)
+        {
+            return true;
+        }
+
+        private void ExecuteBooks(object parameter)
+        {
+            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+            navigationService.Navigate(new Uri("/BooksPage.xaml", UriKind.Relative));
+        }
     }
 }
