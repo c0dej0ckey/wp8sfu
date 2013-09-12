@@ -20,5 +20,9 @@ namespace wp8sfu
                 this.DataContext = new BooksVM();
             }
         }
+
+
+
+
     }
 }

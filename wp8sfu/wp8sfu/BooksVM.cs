@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -15,12 +16,13 @@ namespace wp8sfu
 {
     public class BooksVM : INotifyPropertyChanged
     {
-        private List<Book> mBooks;
-
+        private ObservableCollection<Book> mBooks;
+        private ObservableCollection<Book> mB;
 
         public BooksVM()
         {
-            mBooks = new List<Book>();
+            Books = new ObservableCollection<Book>();
+            B = new ObservableCollection<Book>();
             List<Course> courses = Settings.LoadCourses();
             courses = courses.Where(c => c.Type == "Lecture").ToList();
             if(courses == null || courses.Count() == 0)
@@ -32,24 +34,32 @@ namespace wp8sfu
                 HttpWebRequest request = null;
                 foreach(Course course in courses)
                 {
-                    request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://sfu.collegestoreonline.com/ePOS?form=shared3/textbooks/json/json_books.html&term={0}&dept={1}&crs={2}&sec={3}&go=Go", 1137, Regex.Split(course.ClassName, @"(\w+)(\d)")[0].Trim().ToLower(), Regex.Split(course.ClassName, @"(\d+)")[1], course.Section));
+                request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://sfu.collegestoreonline.com/ePOS?form=shared3/textbooks/json/json_books.html&term={0}&dept={1}&crs={2}&sec={3}&go=Go", 1137, Regex.Split(course.ClassName, @"(\w+)(\d)")[0].Trim().ToLower(), Regex.Split(course.ClassName, @"(\d+)")[1], course.Section));
                     request.Method = "GET";
                     request.BeginGetResponse(new AsyncCallback(GetBookResponse), request);
                 }
 
-            }
-
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
+
                     OnPropertyChanged("Books");
                 });
 
+            }
+
+
         }
 
-        public List<Book> Books
+        public ObservableCollection<Book> Books
         {
             get { return this.mBooks; }
             set { this.mBooks = value; }
+        }
+
+        public ObservableCollection<Book> B
+        {
+            get { return this.mB; }
+            set { this.mB = value; }
         }
 
         private void GetBookResponse(IAsyncResult result)
@@ -92,13 +102,18 @@ namespace wp8sfu
                     float usedP;
                     float.TryParse(usedPrice, out usedP);
                     Book bk = new Book(className, classNumber, title, author, status, isbn, newP, usedP);
-                    mBooks.Add(bk);
+                    
                     Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
+
+                        Books.Add(bk);
                         OnPropertyChanged("Books");
                     });
+                    
                 }
             }
+
+            
         }
 
 

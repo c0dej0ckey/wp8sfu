@@ -23,6 +23,7 @@ namespace wp8sfu
         /// </summary>
         public App()
         {
+
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 
@@ -54,6 +55,7 @@ namespace wp8sfu
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
+
 
         }
 
