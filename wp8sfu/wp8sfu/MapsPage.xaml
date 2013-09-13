@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wptk="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -30,16 +31,27 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
-            <wptk:ListPicker ItemsSource="{Binding Campuses}"  Header="Select Campus" SelectionChanged="GetCampus_ForSelection">
-                <wptk:ListPicker.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            
-                        </StackPanel>
-                    </DataTemplate>
-                </wptk:ListPicker.ItemTemplate>
-            </wptk:ListPicker>
             
+            <wptk:ListPicker Header="Campus" SelectionChanged="GetCampus_ForSelection">
+                <wptk:ListPicker.Items>
+                    <wptk:ListPickerItem Content="Surrey Campus" />
+                    <wptk:ListPickerItem Content="Burnaby Campus" />
+                </wptk:ListPicker.Items>
+            </wptk:ListPicker>
+
+            <wptk:ListPicker Header="Floor" ItemsSource="{Binding SurreyFloors}" SelectionChanged="GetCampus_ForSelection">
+                <wptk:ListPicker.Items>
+                </wptk:ListPicker.Items>
+            </wptk:ListPicker>
+
+
+            <wptk:ListPicker Header="Room" ItemsSource="{Binding SurreyRooms}"  SelectionChanged="GetCampus_ForSelection">
+                <wptk:ListPicker.Items>
+                </wptk:ListPicker.Items>
+            </wptk:ListPicker>
+
+
+
         </Grid>
     </Grid>
 

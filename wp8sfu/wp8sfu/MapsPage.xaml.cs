@@ -20,8 +20,6 @@ namespace wp8sfu
 
         private void GetCampus_ForSelection(object sender, SelectionChangedEventArgs e)
         {
-            ListPicker picker = (ListPicker)sender as ListPicker;
-            string campus = picker.SelectedItem.ToString();
         }
     }
 }
