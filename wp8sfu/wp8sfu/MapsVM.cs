@@ -1,30 +1,48 @@
 ﻿using Kent.Boogaart.KBCsv;
+using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Navigation;
 using System.Windows.Resources;
 using Windows.Storage.Streams;
 
 namespace wp8sfu
 {
-    public class MapsVM
+    public class MapsVM : INotifyPropertyChanged
     {
+        private List<string> mCampuses;
         private List<string> mSurreyFloors;
-        private List<string> mSurreyRooms;
+        private List<string> mBurnabyBuildings;
         private List<Room> mRooms;
+        private string mSurreySelectedFloor;
+        private Room mSurreySelectedRoom;
+        private string mSelectedCampus;
 
         public MapsVM()
         {
             mSurreyFloors = new List<string>();
+            mSurreyFloors.Add(string.Empty);
             mSurreyFloors.Add("Galleria 3");
             mSurreyFloors.Add("Galleria 4");
             mSurreyFloors.Add("Galleria 5");
             mSurreyFloors.Add("Podium 2");
-            mSurreyRooms = new List<string>();
+            mRooms = new List<Room>();
+
+            mCampuses = new List<string>();
+            mCampuses.Add(string.Empty);
+            mCampuses.Add("Burnaby Campus");
+            mCampuses.Add("Surrey Campus");
+
+            mBurnabyBuildings = new List<string>();
+
             string dir = Directory.GetCurrentDirectory();
             StreamReader reader = null;
 
@@ -37,32 +55,128 @@ namespace wp8sfu
             while((line = reader.ReadLine()) != null)
             {
                 string[] data = line.Split(',');
-                Room room = new Room(data[0], int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]));
+                Room room = new Room(data[0], data[1], int.Parse(data[2]), int.Parse(data[3]));
                 mRooms.Add(room);
             }
             
 
         }
 
-        public List<string> SurreyFloors
+        public ICommand GetRoomCommand
         {
-            get { return this.mSurreyFloors; }
-            set { this.mSurreyFloors = value; }
+            get { return new DelegateCommand(ExecuteGetRoom, CanExecuteGetRoom); }
         }
 
-        public List<string> SurreyRooms
+        private bool CanExecuteGetRoom(object parameter)
         {
-            get { return this.mSurreyRooms; }
-            set { this.mSurreyRooms = value; }
+            if(SurreySelectedRoom != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void ExecuteGetRoom(object parameter)
+        {
+            PhoneApplicationService.Current.State["SelectedRoom"] = SurreySelectedRoom;
+            if (mSelectedCampus == "Surrey Campus")
+            {
+                PhoneApplicationService.Current.State["SelectedEntity"] = SurreySelectedFloor;
+            }
+            else
+            {
+                PhoneApplicationService.Current.State["SelectedEntity"] = "Burnaby Campus";
+            }
+            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+            navigationService.Navigate(new Uri("/MapDetailsPage.xaml", UriKind.Relative));
+        }
+
+        public List<string> Floors
+        {
+            get
+            {
+                if (SelectedCampus != null)
+                {
+                    if (SelectedCampus.Equals("Surrey Campus"))
+                    {
+                        return this.mSurreyFloors;
+                    }
+                    else if (SelectedCampus.Equals("Burnaby Campus"))
+                    {
+                        return this.mBurnabyBuildings;
+                    }
+                }
+                return null;
+            }
+            set 
+            { 
+                this.mSurreyFloors = value; 
+            }
+        }
+
+
+        public string SurreySelectedFloor
+        {
+            get { return this.mSurreySelectedFloor; }
+            set { this.mSurreySelectedFloor = value;
+            OnPropertyChanged("Rooms");
+            }
+        }
+
+        public Room SurreySelectedRoom
+        {
+            get { return this.mSurreySelectedRoom; }
+            set 
+            { 
+                this.mSurreySelectedRoom = value;
+                OnPropertyChanged("GetRoomCommand");
+            }
         }
 
         public List<Room> Rooms
         {
-            get { return this.mRooms; }
+            get 
+            {
+                OnPropertyChanged("GetRoomCommand");
+                if(SurreySelectedFloor != null && SurreySelectedFloor != "")
+                {
+                    string floorNumber = SurreySelectedFloor.Split(' ')[1];
+                    return mRooms.Where(e => e.Number.First() == floorNumber[0]).ToList<Room>();
+                }
+
+                return null; 
+
+            }
             set { this.mRooms = value; }
         }
 
-        
+        public string SelectedCampus
+        {
+            get { return this.mSelectedCampus; }
+            set 
+            {
+                this.mSelectedCampus = value;
+                OnPropertyChanged("Floors");
+            }
+        }
+
+        public List<string> Campuses
+        {
+            get { return this.mCampuses; }
+            set { this.mCampuses = value; }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
     }
 
     

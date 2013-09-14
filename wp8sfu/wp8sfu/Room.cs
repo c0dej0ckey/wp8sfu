@@ -11,9 +11,9 @@ namespace wp8sfu
         private int mX;
         private int mY;
         private string mName;
-        private int mNumber;
+        private string mNumber;
 
-        public Room(string name, int number, int x, int y)
+        public Room(string name, string number, int x, int y)
         {
             this.X = x;
             this.Y = y;
@@ -40,7 +40,7 @@ namespace wp8sfu
             set { this.mName = value; }
         }
 
-        public int Number
+        public string Number
         {
             get { return this.mNumber; }
             set { this.mNumber = value; }

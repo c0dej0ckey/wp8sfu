@@ -15,6 +15,13 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="ListPickerStyle" TargetType="wptk:ListPicker" >
+            <Style.Setters>
+                
+            </Style.Setters>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -31,26 +38,35 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
-            
-            <wptk:ListPicker Header="Campus" SelectionChanged="GetCampus_ForSelection">
-                <wptk:ListPicker.Items>
-                    <wptk:ListPickerItem Content="Surrey Campus" />
-                    <wptk:ListPickerItem Content="Burnaby Campus" />
-                </wptk:ListPicker.Items>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <wptk:ListPicker x:Name="CampusListPicker" Grid.Row="0" Header="Campus"   ItemsSource="{Binding Campuses}" SelectedItem="{Binding SelectedCampus, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectionChanged="GetCampus_ForSelection" >
+               
             </wptk:ListPicker>
 
-            <wptk:ListPicker Header="Floor" ItemsSource="{Binding SurreyFloors}" SelectionChanged="GetCampus_ForSelection">
-                <wptk:ListPicker.Items>
-                </wptk:ListPicker.Items>
+            <wptk:ListPicker x:Name="FloorBuildingPicker" Grid.Row="1" Header="Floor" ItemsSource="{Binding Floors, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectedItem="{Binding SurreySelectedFloor, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectionChanged="GetRoom_FloorSelection" >
+                
+                
             </wptk:ListPicker>
 
 
-            <wptk:ListPicker Header="Room" ItemsSource="{Binding SurreyRooms}"  SelectionChanged="GetCampus_ForSelection">
-                <wptk:ListPicker.Items>
-                </wptk:ListPicker.Items>
+            <wptk:ListPicker x:Name="RoomPicker"  Grid.Row="2" Header="Room" ItemsSource="{Binding Rooms, Mode=TwoWay, UpdateSourceTrigger=Default}"  DisplayMemberPath="Name" SelectedItem="{Binding SurreySelectedRoom, Mode=TwoWay, UpdateSourceTrigger=Default}" >
+                <wptk:ListPicker.FullModeItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </wptk:ListPicker.FullModeItemTemplate>
             </wptk:ListPicker>
 
-
+            <Button Grid.Row="3" HorizontalAlignment="Right" Height="70" Width="150" Content="Go" Command="{Binding GetRoomCommand}" />
 
         </Grid>
     </Grid>
