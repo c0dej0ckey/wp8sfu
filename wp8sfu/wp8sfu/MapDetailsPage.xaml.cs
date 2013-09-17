@@ -36,64 +36,14 @@ namespace wp8sfu
 
             this.DataContext = new MapDetailsVM();
             MapDetailsVM vm = this.DataContext as MapDetailsVM;
-            byte[] data;
-
-                // Open the file - error handling omitted for brevity
-                // Note: If the image does not exist in isolated storage
-                // the following exception will be generated:
-                // System.IO.IsolatedStorage.IsolatedStorageException was unhandled
-                // Message=Operation not permitted on IsolatedStorageFileStream
-            string path = @"wp8sfu;component/Resources/Maps/";
-            switch(vm.Entity)
-            {
-                case "Galleria 3":
-                    path = path + "Campus_Guide_Galleria_3.png";
-                    break;
-                case "Galleria 4":
-                    path = path + "Campus_Guide_Galleria_4.png";
-                    break;
-                case "Galleria 5":
-                    path = path + "Campus_Guide_Galleria_5.png";
-                    break;
-                case "Podium 2":
-                    path = path + "Campus_Guide_Podium_2.png";
-                    break;
-                case "Burnaby Campus":
-                    path = path + "Campus_Guide_Galleria_3.png";
-                    break;
-                case "Burnaby Lots":
-                    path = path + "Campus_Guide_Galleria_3.png";
-                    break;
-            }
-
-
-                StreamResourceInfo res = System.Windows.Application.GetResourceStream(new Uri(path, UriKind.Relative));
-                Stream isfs = res.Stream;
-                // Allocate an array large enough for the entire file
-                    data = new byte[isfs.Length];
-
-                    // Read the entire file and then close it
-                    isfs.Read(data, 0, data.Length);
-                    isfs.Close();
-
-            // Create memory stream and bitmap
-            MemoryStream ms = new MemoryStream(data);
-            BitmapImage bi = new BitmapImage();
-
-            
-
-            // Set bitmap source to memory stream
-            bi.SetSource(ms);
-
-            
-            
+            WriteableBitmap bi = vm.GetBitmapForCampus();
 
             _imageHeight = bi.PixelHeight;
             _imageWidth = bi.PixelWidth;
             _imagePosition = new Point(0, 0);
             _totalImageScale = 1;
 
-            // set max zoom in
+            
             if (MapImage.ActualWidth == 0.0 || MapImage.ActualHeight == 0.0)
             {
                 _needToUpdateMaxZoom = true;
@@ -105,10 +55,8 @@ namespace wp8sfu
                 UpdateImagePosition(new Point(0, 0));
             }
 
-            // Assign the bitmap image to the image’s source
-            MapImage.Source = bi;
+            //MapImage.Source = bi;
 
-            vm.SetPinOnImage(ms, bi);
         }
 
         private void MapImage_SizeChanged(object sender, SizeChangedEventArgs e)
