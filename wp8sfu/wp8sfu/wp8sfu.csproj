@@ -90,83 +90,90 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Pages\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Book.cs" />
-    <Compile Include="BooksPage.xaml.cs">
+    <Compile Include="Entities\Book.cs" />
+    <Compile Include="Pages\BooksPage.xaml.cs">
       <DependentUpon>BooksPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BooksVM.cs" />
-    <Compile Include="CookieAwareClient.cs" />
-    <Compile Include="Course.cs" />
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="VMs\BooksVM.cs" />
+    <Compile Include="UI\CookieAwareClient.cs" />
+    <Compile Include="Entities\Course.cs" />
+    <Compile Include="UI\DelegateCommand.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="LoginDetailsPage.xaml.cs">
+    <Compile Include="Pages\LoginDetailsPage.xaml.cs">
       <DependentUpon>LoginDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginDetailsVM.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="VMs\LoginDetailsVM.cs" />
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPageVM.cs" />
-    <Compile Include="MapDetailsPage.xaml.cs">
+    <Compile Include="VMs\MainPageVM.cs" />
+    <Compile Include="Pages\MapDetailsPage.xaml.cs">
       <DependentUpon>MapDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MapDetailsVM.cs" />
-    <Compile Include="MapsPage.xaml.cs">
+    <Compile Include="VMs\MapDetailsVM.cs" />
+    <Compile Include="Pages\MapsPage.xaml.cs">
       <DependentUpon>MapsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MapsVM.cs" />
+    <Compile Include="VMs\MapsVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProtectedServicesPage.xaml.cs">
+    <Compile Include="Pages\ProtectedServicesPage.xaml.cs">
       <DependentUpon>ProtectedServicesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProtectedServicesVM.cs" />
+    <Compile Include="VMs\ProtectedServicesVM.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Room.cs" />
-    <Compile Include="SchedulePage.xaml.cs">
+    <Compile Include="Entities\Room.cs" />
+    <Compile Include="Pages\SchedulePage.xaml.cs">
       <DependentUpon>SchedulePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScheduleVM.cs" />
-    <Compile Include="ServiceLocator.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="VMs\ScheduleVM.cs" />
+    <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Utilities\Settings.cs" />
+    <Compile Include="Pages\TransitPage.xaml.cs">
+      <DependentUpon>TransitPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Pages\App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="BooksPage.xaml">
+    <Page Include="Pages\BooksPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginDetailsPage.xaml">
+    <Page Include="Pages\LoginDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MapDetailsPage.xaml">
+    <Page Include="Pages\MapDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MapsPage.xaml">
+    <Page Include="Pages\MapsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProtectedServicesPage.xaml">
+    <Page Include="Pages\ProtectedServicesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SchedulePage.xaml">
+    <Page Include="Pages\SchedulePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TransitPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -177,7 +184,7 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <Resource Include="Resources\Maps\surrey-campus-list.csv" />
+    <Resource Include="Assets\Maps\surrey-campus-list.csv" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -199,16 +206,16 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="README_FIRST.txt" />
-    <Resource Include="Resources\Maps\Campus_Guide_Galleria_3%402x.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Galleria_3.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Galleria_4%402x.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Galleria_4.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Galleria_5%402x.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Galleria_5.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Podium_2%402x.png" />
-    <Resource Include="Resources\Maps\Campus_Guide_Podium_2.png" />
-    <Resource Include="Resources\Maps\pin_map.png" />
+    <Content Include="Toolkit.Content\README_FIRST.txt" />
+    <Resource Include="Assets\Maps\Campus_Guide_Galleria_3%402x.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Galleria_3.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Galleria_4%402x.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Galleria_4.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Galleria_5%402x.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Galleria_5.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Podium_2%402x.png" />
+    <Resource Include="Assets\Maps\Campus_Guide_Podium_2.png" />
+    <Resource Include="Assets\Maps\pin_map.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
@@ -250,6 +257,7 @@
       <HintPath>..\..\..\..\Program Files (x86)\First Floor Software\XAML Spy\Libraries\WindowsPhone\XamlSpy.WP8.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
