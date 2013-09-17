@@ -31,7 +31,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
 
-            <Image x:Name="MapImage" Stretch="Uniform"
+            <Image x:Name="MapImage" Stretch="Uniform" Source="{Binding CampusImage,Mode=TwoWay, UpdateSourceTrigger=Default}"
        RenderTransformOrigin="0,0" CacheMode="BitmapCache"
        SizeChanged="MapImage_SizeChanged">
                 <toolkit:GestureService.GestureListener>

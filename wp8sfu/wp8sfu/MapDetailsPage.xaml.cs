@@ -80,8 +80,13 @@ namespace wp8sfu
             MemoryStream ms = new MemoryStream(data);
             BitmapImage bi = new BitmapImage();
 
+            
+
             // Set bitmap source to memory stream
             bi.SetSource(ms);
+
+            
+            
 
             _imageHeight = bi.PixelHeight;
             _imageWidth = bi.PixelWidth;
@@ -103,7 +108,7 @@ namespace wp8sfu
             // Assign the bitmap image to the image’s source
             MapImage.Source = bi;
 
-
+            vm.SetPinOnImage(ms, bi);
         }
 
         private void MapImage_SizeChanged(object sender, SizeChangedEventArgs e)

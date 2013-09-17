@@ -208,6 +208,7 @@
     <Resource Include="Resources\Maps\Campus_Guide_Galleria_5.png" />
     <Resource Include="Resources\Maps\Campus_Guide_Podium_2%402x.png" />
     <Resource Include="Resources\Maps\Campus_Guide_Podium_2.png" />
+    <Resource Include="Resources\Maps\pin_map.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
@@ -238,6 +239,12 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.8.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhoneXnaDependant">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.8.0\lib\WindowsPhone8\WriteableBitmapExWinPhoneXnaDependant.dll</HintPath>
     </Reference>
     <Reference Include="XamlSpy.WP8">
       <HintPath>..\..\..\..\Program Files (x86)\First Floor Software\XAML Spy\Libraries\WindowsPhone\XamlSpy.WP8.dll</HintPath>
