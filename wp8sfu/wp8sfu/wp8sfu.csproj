@@ -97,6 +97,9 @@
     <Compile Include="Pages\BooksPage.xaml.cs">
       <DependentUpon>BooksPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ProtectedServiceBrowserPage.xaml.cs">
+      <DependentUpon>ProtectedServiceBrowserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VMs\BooksVM.cs" />
     <Compile Include="UI\CookieAwareClient.cs" />
     <Compile Include="Entities\Course.cs" />
@@ -162,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MapsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProtectedServiceBrowserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

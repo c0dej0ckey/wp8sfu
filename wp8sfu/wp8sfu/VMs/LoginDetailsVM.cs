@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,35 +22,55 @@ namespace wp8sfu.VMs
 {
     public class LoginDetailsVM : INotifyPropertyChanged
     {
-        private string mUsername;
-        private string mPassword;
-        private DelegateCommand mLoginCommand;
+        private static string sUsername = "USERNAME";
+        private static string sPassword = "PASSWORD";
+        private static DelegateCommand mLoginCommand;
         private string mKey;
-        private bool mIsLoggingIn;
+        private static bool sIsLoggingIn = false;
 
         public LoginDetailsVM()
         {
-            mUsername = string.Empty;
-            mPassword = string.Empty;
             mLoginCommand = new DelegateCommand(ExecuteLogin, CanExecuteLogin);
         }
 
-        public string Username
+        public static string Username
         {
-            get { return this.mUsername; }
+            get 
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains(sUsername))
+                {
+                    var bytes = IsolatedStorageSettings.ApplicationSettings[sUsername] as byte[];
+                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
+                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
+                }
+                else
+                    return string.Empty;
+            }
             set 
-            { 
-                this.mUsername = value;
+            {
+                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
+                IsolatedStorageSettings.ApplicationSettings[sUsername] = encryptedBytes;
                 LoginCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public string Password
+        public static string Password
         {
-            get { return this.mPassword; }
+            get 
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains(sPassword))
+                {
+                    var bytes = IsolatedStorageSettings.ApplicationSettings[sPassword] as byte[];
+                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
+                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
+                }
+                else 
+                    return string.Empty; 
+            }
             set 
             {
-                this.mPassword = value;
+                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
+                IsolatedStorageSettings.ApplicationSettings[sPassword] = encryptedBytes;
                 LoginCommand.RaiseCanExecuteChanged();
             }
         }
@@ -57,7 +79,7 @@ namespace wp8sfu.VMs
         {
             get
             {
-                if (mIsLoggingIn == false)
+                if (sIsLoggingIn == false)
                 {
                     return Visibility.Collapsed;
                 }
@@ -69,14 +91,26 @@ namespace wp8sfu.VMs
 
         }
 
-        public DelegateCommand LoginCommand
+        public static bool IsLoggingIn
+        {
+            get
+            {
+                return sIsLoggingIn;
+            }
+            set
+            {
+                sIsLoggingIn = value;
+            }
+        }
+
+        public static DelegateCommand LoginCommand
         {
             get { return mLoginCommand; }
         }
 
         private bool CanExecuteLogin(object parameter)
         {
-            if(mUsername.Length == 0 || mPassword.Length == 0)
+            if(Username.Length == 0 || Password.Length == 0)
             {
                 return false;
             }
@@ -89,7 +123,7 @@ namespace wp8sfu.VMs
 
         private void ExecuteLogin(object parameter)
         {
-            mIsLoggingIn = true;
+            IsLoggingIn = true;
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -133,7 +167,7 @@ namespace wp8sfu.VMs
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
             
             Stream stream = request.EndGetRequestStream(asyncResult);
-            string loginData = "username=" + mUsername + "&password=" + mPassword + "&lt=" + mKey;
+            string loginData = "username=" + Username + "&password=" + Password + "&lt=" + mKey;
             byte[] bytes = Encoding.UTF8.GetBytes(loginData);
             stream.Write(bytes, 0, loginData.Length);
             stream.Close();
@@ -153,11 +187,8 @@ namespace wp8sfu.VMs
             {
                 if (cookie.Name == "CASTGC")
                 {
-                    Settings.AddSetting("LoggedIn", "True");
-                    Settings.AddSetting("Username", mUsername);
-                    Settings.AddSetting("Password", mPassword);
                     ServiceLocator.AddService<CookieCollection>(cookies);
-                    mIsLoggingIn = false;
+                    IsLoggingIn = false;
                     break;
                     
                 }
@@ -168,7 +199,7 @@ namespace wp8sfu.VMs
 
                     OnPropertyChanged("Loading");
                     NavigationService service = ServiceLocator.GetService<NavigationService>();
-                    service.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                    service.GoBack();
                 });
             
 
