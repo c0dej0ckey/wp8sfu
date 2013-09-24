@@ -27,10 +27,13 @@ namespace wp8sfu.VMs
         private static DelegateCommand mLoginCommand;
         private string mKey;
         private static bool sIsLoggingIn = false;
+        private Visibility mErrorVisibility;
+        private Visibility mLoadingVisibility;
 
         public LoginDetailsVM()
         {
             mLoginCommand = new DelegateCommand(ExecuteLogin, CanExecuteLogin);
+            mErrorVisibility = Visibility.Collapsed;
         }
 
         public static string Username
@@ -88,20 +91,19 @@ namespace wp8sfu.VMs
                     return Visibility.Visible;
                 }
             }
-
-        }
-
-        public static bool IsLoggingIn
-        {
-            get
-            {
-                return sIsLoggingIn;
-            }
             set
             {
-                sIsLoggingIn = value;
+                mLoadingVisibility = value;
             }
+
         }
+
+        public Visibility ErrorVisibility
+        {
+            get { return mErrorVisibility; }
+            set { mErrorVisibility = value; }
+        }
+
 
         public static DelegateCommand LoginCommand
         {
@@ -123,8 +125,8 @@ namespace wp8sfu.VMs
 
         private void ExecuteLogin(object parameter)
         {
-            IsLoggingIn = true;
-
+            sIsLoggingIn = true;
+            ErrorVisibility = Visibility.Collapsed;
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
 
@@ -188,20 +190,41 @@ namespace wp8sfu.VMs
                 if (cookie.Name == "CASTGC")
                 {
                     ServiceLocator.AddService<CookieCollection>(cookies);
-                    IsLoggingIn = false;
+                    sIsLoggingIn = false;
                     break;
                     
                 }
             }
-
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            //getting cookie failed
+            if (sIsLoggingIn == true)
+            {
+                ErrorVisibility = Visibility.Visible;
+                Loading = Visibility.Collapsed;
+                sIsLoggingIn = false;
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-
                     OnPropertyChanged("Loading");
-                    NavigationService service = ServiceLocator.GetService<NavigationService>();
-                    service.GoBack();
+                    OnPropertyChanged("ErrorVisibility");
                 });
-            
+
+            }
+            else
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+
+                        OnPropertyChanged("Loading");
+                        NavigationService service = ServiceLocator.GetService<NavigationService>();
+                        if (service.BackStack.First().Source.ToString() == "/Pages/ProtectedServicesPage.xaml")
+                        {
+                            service.Navigate(new Uri("/Pages/ProtectedServiceBrowserPage.xaml", UriKind.Relative));
+                        }
+                        else
+                        {
+                            service.GoBack();
+                        }
+                    });
+            }
 
         }
 

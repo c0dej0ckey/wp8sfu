@@ -21,5 +21,6 @@ namespace wp8sfu.Pages
                 this.DataContext = new LoginDetailsVM();
             }
         }
+
     }
 }

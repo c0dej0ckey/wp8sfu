@@ -56,6 +56,7 @@
                 </Grid>
                 <Button Content="Login" HorizontalAlignment="Right" Command="{Binding LoginCommand}" />
                 <ProgressBar IsIndeterminate="True" Visibility="{Binding Loading, Mode=TwoWay, UpdateSourceTrigger=Default}" HorizontalAlignment="Stretch"  />
+                <TextBlock TextWrapping="Wrap" Foreground="Red" Visibility="{Binding ErrorVisibility}">***Incorrect Username or Password!</TextBlock>
             </StackPanel>
             
         </Grid>

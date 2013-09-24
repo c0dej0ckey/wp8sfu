@@ -36,7 +36,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <ListBox x:Name="ServiceListBox" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService, Mode=TwoWay, UpdateSourceTrigger=Default}" FontSize="24" SelectionChanged="ServiceChanged" Visibility="{Binding ServiceListVisibility}" />
             
-            <phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True" Navigated="Browser_Navigated"    />
+            <!--<phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True" Navigated="Browser_Navigated"    />-->
             
         </Grid>
     </Grid>

@@ -16,7 +16,7 @@ namespace wp8sfu.VMs
         private List<string> mServices = new List<string>();
         private Visibility mBrowserVisibility;
         private Visibility mServiceListVisibility;
-        private string mSelectedService;
+        private static string mSelectedService;
 
         public ProtectedServicesVM()
         {
@@ -47,10 +47,10 @@ namespace wp8sfu.VMs
             get { return mServices; }
         }
 
-        public string SelectedService
+        public static string SelectedService
         {
-            get { return this.mSelectedService; }
-            set { this.mSelectedService = value; }
+            get { return mSelectedService; }
+            set { mSelectedService = value; }
         }
 
         public void OpenService(string service)
