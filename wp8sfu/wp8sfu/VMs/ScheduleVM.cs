@@ -9,7 +9,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using wp8sfu.Entities;
+using wp8sfu.UI;
 using wp8sfu.Utilities;
 
 namespace wp8sfu.VMs
@@ -44,6 +46,28 @@ namespace wp8sfu.VMs
             }
         }
 
+        public ICommand RefreshCommand
+        {
+            get { return new DelegateCommand(ExecuteRefreshSchedule, CanExecuteRefreshSchedule); }
+        }
+
+        private bool CanExecuteRefreshSchedule(object parameter)
+        {
+            return true;
+        }
+
+        private void ExecuteRefreshSchedule(object parameter)
+        {
+            //remove courses from classes.json
+            Settings.DeleteCourses();
+            //set mCourses = new List
+            Courses = new List<Course>();
+            //getclasses
+            GetClasses();
+
+        }
+
+
         private void GetClasses()
         {
             //CookieCollection cookies = ServiceLocator.GetService<CookieCollection>();
@@ -61,7 +85,7 @@ namespace wp8sfu.VMs
         {
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
             Stream stream = request.EndGetRequestStream(asyncResult);
-            string loginData = "user=swa53&pwd=5jun38&userid=SWA53&Submit=Login";
+            string loginData = string.Format("user={0}&pwd={1}&userid={2}&Submit=Login", LoginDetailsVM.Username, LoginDetailsVM.Password, LoginDetailsVM.Username.ToUpper());
             byte[] bytes = Encoding.UTF8.GetBytes(loginData);
             stream.Write(bytes, 0, loginData.Length);
             stream.Close();

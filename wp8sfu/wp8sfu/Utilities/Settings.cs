@@ -87,6 +87,22 @@ namespace wp8sfu.Utilities
             return null;
         }
 
+        public static void DeleteCourses()
+        {
+            try
+            {
+                IsolatedStorageFile fileStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                if(fileStorage.FileExists("classes.json"))
+                {
+                    fileStorage.DeleteFile("classes.json");
+                }
+            }
+            catch
+            {
+                
+            }
+        }
+
         public static void LoadSettings()
         {
             

@@ -53,6 +53,7 @@ namespace wp8sfu.VMs
             {
                 var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
                 IsolatedStorageSettings.ApplicationSettings[sUsername] = encryptedBytes;
+                IsolatedStorageSettings.ApplicationSettings.Save();
                 LoginCommand.RaiseCanExecuteChanged();
             }
         }
@@ -74,6 +75,7 @@ namespace wp8sfu.VMs
             {
                 var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
                 IsolatedStorageSettings.ApplicationSettings[sPassword] = encryptedBytes;
+                IsolatedStorageSettings.ApplicationSettings.Save();
                 LoginCommand.RaiseCanExecuteChanged();
             }
         }
