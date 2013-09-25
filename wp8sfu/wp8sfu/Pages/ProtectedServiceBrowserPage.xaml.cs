@@ -16,33 +16,40 @@ namespace wp8sfu.Pages
     public partial class ProtectedServiceBrowserPage : PhoneApplicationPage
     {
         private string mService;
+        private WebBrowser mBrowser;
 
         public ProtectedServiceBrowserPage()
         {
             InitializeComponent();
             mService = ProtectedServicesVM.SelectedService;
-            SetBrowserNavigationUrl(mService, this.FindName("Browser") as WebBrowser);
+            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+            if(navigationService.BackStack.First().Source.OriginalString == "/Pages/LoginDetailsPage.xaml")
+            {
+                navigationService.RemoveBackEntry();
+            }
+            mBrowser = this.FindName("Browser") as WebBrowser;
+            
+            mBrowser.LoadCompleted += mBrowser_LoadCompleted;
+            SetBrowserNavigationUrl(mService, mBrowser);
         }
 
-        private void Browser_Navigated(object sender, NavigationEventArgs e)
+        private void mBrowser_LoadCompleted(object sender, NavigationEventArgs e)
         {
-            WebBrowser browser = sender as WebBrowser;
-            if (browser.IsEnabled)
+            Uri uri = mBrowser.Source;
+            string uriString = uri.ToString();
+            if (Regex.IsMatch(uriString, "https:\\/\\/cas\\.sfu\\.ca.*"))
             {
-                Uri uri = browser.Source;
-                string uriString = uri.ToString();
-                if (Regex.IsMatch(uriString, "https:\\/\\/cas\\.sfu\\.ca.*"))
-                {
-                    browser.InvokeScript(
-                        "eval", string.Format("document.getElementById('computingId').value='{0}'; document.getElementById('password').value='{1}';document.forms[0].submit();", LoginDetailsVM.Username, LoginDetailsVM.Password));
-                }
-
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        mBrowser.InvokeScript(
+                            "eval", string.Format("document.getElementById('computingId').value='{0}'; document.getElementById('password').value='{1}';document.forms[0].submit();", LoginDetailsVM.Username, LoginDetailsVM.Password));
+                    });
             }
         }
 
-
         private void SetBrowserNavigationUrl(string service, WebBrowser browser)
         {
+            mBrowser = browser;
             switch (service)
             {
                 case "webct":
@@ -63,12 +70,6 @@ namespace wp8sfu.Pages
             }
         }
 
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            navigationService.Navigate(new Uri("/Pages/ProtectedServices.xaml", UriKind.Relative));
-            base.OnBackKeyPress(e);
-        }
 
     }
 }

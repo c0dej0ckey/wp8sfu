@@ -23,7 +23,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <phone:WebBrowser x:Name="Browser"  IsScriptEnabled="True" Navigated="Browser_Navigated"     />
+            <phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True"    />
         </Grid>
     </Grid>
 

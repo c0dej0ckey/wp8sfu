@@ -29,12 +29,28 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="SFU" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="protected services" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="protected services" Margin="9,-7,0,0" FontSize="58" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox x:Name="ServiceListBox" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService, Mode=TwoWay, UpdateSourceTrigger=Default}" FontSize="24" SelectionChanged="ServiceChanged" Visibility="{Binding ServiceListVisibility}" />
+            <ListBox x:Name="ServiceListBox" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService, Mode=TwoWay, UpdateSourceTrigger=Default}" FontSize="24" SelectionChanged="Service_Changed">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,15,0,15" Background="DarkGray" Width="Auto"  Orientation="Vertical">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="{Binding}" Margin="15,0,15,0" />
+                                
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             
             <!--<phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True" Navigated="Browser_Navigated"    />-->
             

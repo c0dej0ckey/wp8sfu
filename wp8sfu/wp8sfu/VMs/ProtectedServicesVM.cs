@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
@@ -13,36 +14,14 @@ namespace wp8sfu.VMs
 {
     public class ProtectedServicesVM : INotifyPropertyChanged
     {
-        private List<string> mServices = new List<string>();
-        private Visibility mBrowserVisibility;
-        private Visibility mServiceListVisibility;
+        private static ObservableCollection<string> mServices = new ObservableCollection<string>() { "webct", "sims", "go sfu", "sfu connect", "coursys" };
         private static string mSelectedService;
 
         public ProtectedServicesVM()
         {
-            mServices.Add("webct");
-            mServices.Add("sims");
-            mServices.Add("go sfu");
-            mServices.Add("sfu connect");
-            mServices.Add("coursys");
-            BrowserVisibility = Visibility.Collapsed;
-            ServiceListVisibility = Visibility.Visible;
-
         }
 
-        public Visibility BrowserVisibility
-        {
-            get { return mBrowserVisibility; }
-            set { mBrowserVisibility = value; }
-        }
-
-        public Visibility ServiceListVisibility
-        {
-            get { return mServiceListVisibility; }
-            set { mServiceListVisibility = value; }
-        }
-
-        public List<string> Services
+        public static ObservableCollection<string> Services
         {
             get { return mServices; }
         }
@@ -53,37 +32,16 @@ namespace wp8sfu.VMs
             set { mSelectedService = value; }
         }
 
-        public void OpenService(string service)
+        public void OpenService()
         {
             NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    mBrowserVisibility = Visibility.Visible;
-                    mServiceListVisibility = Visibility.Collapsed;
-                    OnPropertyChanged("BrowserVisibility");
-                    OnPropertyChanged("ServiceListVisibility");
-                });
-            CookieContainer cookies = ServiceLocator.GetService<CookieContainer>();
-            if(cookies == null)
+            if (LoginDetailsVM.Username.Equals(string.Empty) && LoginDetailsVM.Password.Equals(string.Empty))
             {
-                //login
+                navigationService.Navigate(new Uri("/Pages/LoginDetailsPage.xaml", UriKind.Relative));
             }
-            if(service.Equals("webct"))
+            else
             {
-                //CookieAwareClient client = new CookieAwareClient(cookies);
-
-            }
-            else if(service.Equals("sims"))
-            {
-                
-            }
-            else if(service.Equals("go sfu"))
-            {
-                
-            }
-            else if(service.Equals("sfu connect"))
-            {
-                
+                navigationService.Navigate(new Uri("/Pages/ProtectedServiceBrowserPage.xaml", UriKind.Relative));
             }
         }
 

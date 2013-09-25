@@ -215,7 +215,7 @@ namespace wp8sfu.VMs
 
                         OnPropertyChanged("Loading");
                         NavigationService service = ServiceLocator.GetService<NavigationService>();
-                        if (service.BackStack.First().Source.ToString() == "/Pages/ProtectedServicesPage.xaml")
+                        if (service.BackStack.First().Source.OriginalString == "/Pages/ProtectedServicesPage.xaml")
                         {
                             service.Navigate(new Uri("/Pages/ProtectedServiceBrowserPage.xaml", UriKind.Relative));
                         }
