@@ -26,7 +26,7 @@ namespace wp8sfu.VMs
         private static string sPassword = "PASSWORD";
         private static DelegateCommand mLoginCommand;
         private string mKey;
-        private static bool sIsLoggingIn = false;
+        private static bool sLogInStatus = false;
         private Visibility mErrorVisibility;
         private Visibility mLoadingVisibility;
 
@@ -78,11 +78,16 @@ namespace wp8sfu.VMs
             }
         }
 
+        public static bool LoginStatus
+        {
+            get { return sLogInStatus; }
+        }
+
         public Visibility Loading
         {
             get
             {
-                if (sIsLoggingIn == false)
+                if (sLogInStatus == false)
                 {
                     return Visibility.Collapsed;
                 }
@@ -125,7 +130,7 @@ namespace wp8sfu.VMs
 
         private void ExecuteLogin(object parameter)
         {
-            sIsLoggingIn = true;
+            sLogInStatus = true;
             ErrorVisibility = Visibility.Collapsed;
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -190,17 +195,17 @@ namespace wp8sfu.VMs
                 if (cookie.Name == "CASTGC")
                 {
                     ServiceLocator.AddService<CookieCollection>(cookies);
-                    sIsLoggingIn = false;
+                    sLogInStatus = false;
                     break;
                     
                 }
             }
             //getting cookie failed
-            if (sIsLoggingIn == true)
+            if (sLogInStatus == true)
             {
                 ErrorVisibility = Visibility.Visible;
                 Loading = Visibility.Collapsed;
-                sIsLoggingIn = false;
+                sLogInStatus = false;
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     OnPropertyChanged("Loading");

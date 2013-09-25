@@ -74,7 +74,7 @@ namespace wp8sfu.VMs
             HttpWebRequest request = (HttpWebRequest)result.AsyncState;
             HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result);
             CookieCollection responseCookies = response.Cookies;
-            HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=1137");
+            HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
             request2.CookieContainer = new CookieContainer();
             request2.CookieContainer.Add(new Uri("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG"), response.Cookies);
             request2.BeginGetResponse(new AsyncCallback(GetClassesResponse), request2);

@@ -9,6 +9,7 @@ using System.Windows.Navigation;
 using wp8sfu.Services;
 using wp8sfu.Utilities;
 using wp8sfu.UI;
+using System.Net;
 
 namespace wp8sfu.VMs
 {
@@ -20,18 +21,13 @@ namespace wp8sfu.VMs
         {
         }
 
-        public string LogInOrOutText
+        public string LoginStatus
         {
             get
             {
-                if(Settings.GetSetting("LoggedIn") != null)
-                {
+                if (LoginDetailsVM.LoginStatus)
                     return "LOGOUT";
-                }
-                else
-                {
-                    return "LOGIN";
-                }
+                return "LOGIN";
             }
         }
 
@@ -121,5 +117,6 @@ namespace wp8sfu.VMs
             NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
             navigationService.Navigate(new Uri("/Pages/MapsPage.xaml", UriKind.Relative));
         }
+
     }
 }
