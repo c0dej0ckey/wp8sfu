@@ -97,15 +97,7 @@ namespace wp8sfu.VMs
 
         private bool CanExecuteLogin(object parameter)
         {
-            if(ComputingId.Length == 0 || Password.Length == 0)
-            {
-                return false;
-            }
-            else
-            {
                 return true;
-            }
-            
         }
 
         private void ExecuteLogin(object parameter)

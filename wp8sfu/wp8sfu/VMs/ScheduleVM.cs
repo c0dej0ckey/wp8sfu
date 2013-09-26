@@ -64,7 +64,15 @@ namespace wp8sfu.VMs
             //set mCourses = new List
             Courses = new List<Course>();
             //check for castgc cookie
-            GetClasses();
+            if (CookieService.GetCookieWithName("BIGipServersims.sfu.ca_7001") != null)
+            {
+                //check that one of the sims cookies hasnt expired as well
+                GetSIMSResponseWithCookies();
+            }
+            else
+            {
+                GetClasses();
+            }
 
         }
 
@@ -99,20 +107,27 @@ namespace wp8sfu.VMs
             HttpWebRequest request = (HttpWebRequest)result.AsyncState;
             HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result);
             CookieCollection responseCookies = response.Cookies;
+            foreach(Cookie cookie in response.Cookies)
+            {
+                CookieService.AddCookie(cookie);
+            }
             HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
             request2.CookieContainer = new CookieContainer();
             request2.CookieContainer.Add(new Uri("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG"), response.Cookies);
             request2.BeginGetResponse(new AsyncCallback(GetClassesResponse), request2);
         }
 
-        private void GetSIMSResponseWithCookies(Cookie castGCCookie)
+        private void GetSIMSResponseWithCookies()
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
             request.CookieContainer = new CookieContainer();
             List<Cookie> cookies = CookieService.GetCookies();
-            foreach (Cookie cookie in cookies)
+            foreach (Cookie cookie in CookieService.GetCookies())
             {
-                request.CookieContainer.Add(new Uri("https://" + castGCCookie.Domain + castGCCookie.Path), cookie);
+                if (cookie.Domain == ".sfu.ca")
+                    request.CookieContainer.Add(new Uri("http://www" + cookie.Domain + cookie.Path), cookie);
+                else
+                    request.CookieContainer.Add(new Uri("http://" + cookie.Domain + cookie.Path), cookie);
             }
             request.BeginGetResponse(new AsyncCallback(GetClassesResponse), request);
         }
