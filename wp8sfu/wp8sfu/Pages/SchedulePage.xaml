@@ -22,7 +22,15 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="SFU" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="SFU" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <Button Grid.Column="1" Content="REFRESH" Command="{Binding RefreshCommand}" />
+            </Grid>
+                
             <TextBlock Text="schedule" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 

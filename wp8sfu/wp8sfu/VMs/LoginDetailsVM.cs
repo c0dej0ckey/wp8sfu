@@ -194,11 +194,12 @@ namespace wp8sfu.VMs
             
             foreach(Cookie cookie in cookies)
             {
+                CookieService.AddCookie(cookie);
                 if (cookie.Name == "CASTGC")
                 {
-                    ServiceLocator.AddService<CookieCollection>(cookies);
+                    //ServiceLocator.AddService<CookieCollection>(cookies);
                     sLogInStatus = false;
-                    break;
+                    
                     
                 }
             }

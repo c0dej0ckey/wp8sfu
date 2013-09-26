@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using wp8sfu.Entities;
+using wp8sfu.Services;
 using wp8sfu.UI;
 using wp8sfu.Utilities;
 
@@ -62,7 +63,7 @@ namespace wp8sfu.VMs
             Settings.DeleteCourses();
             //set mCourses = new List
             Courses = new List<Course>();
-            //getclasses
+            //check for castgc cookie
             GetClasses();
 
         }
@@ -102,6 +103,18 @@ namespace wp8sfu.VMs
             request2.CookieContainer = new CookieContainer();
             request2.CookieContainer.Add(new Uri("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG"), response.Cookies);
             request2.BeginGetResponse(new AsyncCallback(GetClassesResponse), request2);
+        }
+
+        private void GetSIMSResponseWithCookies(Cookie castGCCookie)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
+            request.CookieContainer = new CookieContainer();
+            List<Cookie> cookies = CookieService.GetCookies();
+            foreach (Cookie cookie in cookies)
+            {
+                request.CookieContainer.Add(new Uri("https://" + castGCCookie.Domain + castGCCookie.Path), cookie);
+            }
+            request.BeginGetResponse(new AsyncCallback(GetClassesResponse), request);
         }
 
         private void GetClassesResponse(IAsyncResult result)
