@@ -22,8 +22,6 @@ namespace wp8sfu.VMs
 {
     public class LoginDetailsVM : INotifyPropertyChanged
     {
-        private static string sUsername = "USERNAME";
-        private static string sPassword = "PASSWORD";
         private static DelegateCommand mLoginCommand;
         private string mKey;
         private static bool sLogInStatus = false;
@@ -36,25 +34,15 @@ namespace wp8sfu.VMs
             mErrorVisibility = Visibility.Collapsed;
         }
 
-        public static string Username
+        public static string ComputingId
         {
             get 
             {
-                if (IsolatedStorageSettings.ApplicationSettings.Contains(sUsername))
-                {
-                    var bytes = IsolatedStorageSettings.ApplicationSettings[sUsername] as byte[];
-                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
-                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
-                }
-                else
-                    return string.Empty;
+                return Settings.ComputingId;
             }
             set 
             {
-                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
-                IsolatedStorageSettings.ApplicationSettings[sUsername] = encryptedBytes;
-                IsolatedStorageSettings.ApplicationSettings.Save();
-                LoginCommand.RaiseCanExecuteChanged();
+                Settings.ComputingId = value; 
             }
         }
 
@@ -62,21 +50,11 @@ namespace wp8sfu.VMs
         {
             get 
             {
-                if (IsolatedStorageSettings.ApplicationSettings.Contains(sPassword))
-                {
-                    var bytes = IsolatedStorageSettings.ApplicationSettings[sPassword] as byte[];
-                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
-                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
-                }
-                else 
-                    return string.Empty; 
+                return Settings.Password;
             }
             set 
             {
-                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
-                IsolatedStorageSettings.ApplicationSettings[sPassword] = encryptedBytes;
-                IsolatedStorageSettings.ApplicationSettings.Save();
-                LoginCommand.RaiseCanExecuteChanged();
+                Settings.Password = value;
             }
         }
 
@@ -119,7 +97,7 @@ namespace wp8sfu.VMs
 
         private bool CanExecuteLogin(object parameter)
         {
-            if(Username.Length == 0 || Password.Length == 0)
+            if(ComputingId.Length == 0 || Password.Length == 0)
             {
                 return false;
             }
@@ -176,7 +154,7 @@ namespace wp8sfu.VMs
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
             
             Stream stream = request.EndGetRequestStream(asyncResult);
-            string loginData = "username=" + Username + "&password=" + Password + "&lt=" + mKey;
+            string loginData = "username=" + ComputingId + "&password=" + Password + "&lt=" + mKey;
             byte[] bytes = Encoding.UTF8.GetBytes(loginData);
             stream.Write(bytes, 0, loginData.Length);
             stream.Close();

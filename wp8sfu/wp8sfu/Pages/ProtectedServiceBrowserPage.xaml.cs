@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Text.RegularExpressions;
 using wp8sfu.VMs;
 using wp8sfu.Services;
+using wp8sfu.Utilities;
 
 namespace wp8sfu.Pages
 {
@@ -42,7 +43,7 @@ namespace wp8sfu.Pages
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
                         mBrowser.InvokeScript(
-                            "eval", string.Format("document.getElementById('computingId').value='{0}'; document.getElementById('password').value='{1}';document.forms[0].submit();", LoginDetailsVM.Username, LoginDetailsVM.Password));
+                            "eval", string.Format("document.getElementById('computingId').value='{0}'; document.getElementById('password').value='{1}';document.forms[0].submit();", Settings.ComputingId, LoginDetailsVM.Password));
                     });
             }
         }

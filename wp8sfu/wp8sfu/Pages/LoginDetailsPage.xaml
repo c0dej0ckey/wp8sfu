@@ -50,7 +50,7 @@
                             <TextBlock Grid.Row="0" VerticalAlignment="Center" Text="Computing Id" />
                             <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="Password" />
 
-                            <TextBox Foreground="Black" Grid.Row="0" Grid.Column="1" Width="180" Height="70" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=Default}" />
+                            <TextBox Foreground="Black" Grid.Row="0" Grid.Column="1" Width="180" Height="70" Text="{Binding ComputingId, Mode=TwoWay, UpdateSourceTrigger=Default}" />
                             <PasswordBox Foreground="Black" Grid.Row="1" Grid.Column="1" Width="180" Height="70" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=Default}" />
                      
                 </Grid>

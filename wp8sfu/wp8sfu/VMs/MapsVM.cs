@@ -21,8 +21,8 @@ namespace wp8sfu.VMs
 {
     public class MapsVM : INotifyPropertyChanged
     {
-        private List<string> mCampuses;
-        private List<string> mSurreyFloors;
+        private List<string> mCampuses = new List<string>() { string.Empty, "Burnaby Campus", "Surrey Campus" };
+        private List<string> mSurreyFloors = new List<string>() { string.Empty, "Galleria 3", "Galleria 4", "Galleria 5", "Podium 2" };
         private List<string> mBurnabyBuildings;
         private List<Room> mRooms;
         private string mSurreySelectedFloor;
@@ -31,18 +31,7 @@ namespace wp8sfu.VMs
 
         public MapsVM()
         {
-            mSurreyFloors = new List<string>();
-            mSurreyFloors.Add(string.Empty);
-            mSurreyFloors.Add("Galleria 3");
-            mSurreyFloors.Add("Galleria 4");
-            mSurreyFloors.Add("Galleria 5");
-            mSurreyFloors.Add("Podium 2");
             mRooms = new List<Room>();
-
-            mCampuses = new List<string>();
-            mCampuses.Add(string.Empty);
-            mCampuses.Add("Burnaby Campus");
-            mCampuses.Add("Surrey Campus");
 
             mBurnabyBuildings = new List<string>();
 

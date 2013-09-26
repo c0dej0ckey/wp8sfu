@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -13,9 +14,72 @@ namespace wp8sfu.Utilities
 {
     public static class Settings
     {
-        public static string ComputingId { get; set; }
-        public static string Password { get; set; }
-        public static int StudentId { get; set; }
+        private static string sComputingId = "COMPUTINGID";
+        private static string sPassword = "PASSWORD";
+        private static string sStudentId = "STUDENTID";
+
+        public static string ComputingId
+        {
+            get
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains(sComputingId))
+                {
+                    var bytes = IsolatedStorageSettings.ApplicationSettings[sComputingId] as byte[];
+                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
+                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
+                }
+                else
+                    return string.Empty;
+            }
+            set
+            {
+                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
+                IsolatedStorageSettings.ApplicationSettings[sComputingId] = encryptedBytes;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        public static string Password
+        {
+            get
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains(sPassword))
+                {
+                    var bytes = IsolatedStorageSettings.ApplicationSettings[sPassword] as byte[];
+                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
+                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
+                }
+                else
+                    return string.Empty;
+            }
+            set
+            {
+                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
+                IsolatedStorageSettings.ApplicationSettings[sPassword] = encryptedBytes;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
+
+        public static string StudentId
+        {
+            get
+            {
+                if (IsolatedStorageSettings.ApplicationSettings.Contains(sStudentId))
+                {
+                    var bytes = IsolatedStorageSettings.ApplicationSettings[sStudentId] as byte[];
+                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
+                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
+                }
+                else
+                    return string.Empty;
+            }
+            set
+            {
+                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
+                IsolatedStorageSettings.ApplicationSettings[sStudentId] = encryptedBytes;
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+        }
 
         public static void SaveCourses(List<Course> courses)
         {

@@ -86,7 +86,7 @@ namespace wp8sfu.VMs
         {
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
             Stream stream = request.EndGetRequestStream(asyncResult);
-            string loginData = string.Format("user={0}&pwd={1}&userid={2}&Submit=Login", LoginDetailsVM.Username, LoginDetailsVM.Password, LoginDetailsVM.Username.ToUpper());
+            string loginData = string.Format("user={0}&pwd={1}&userid={2}&Submit=Login", Settings.ComputingId, Settings.Password, Settings.ComputingId.ToUpper());
             byte[] bytes = Encoding.UTF8.GetBytes(loginData);
             stream.Write(bytes, 0, loginData.Length);
             stream.Close();

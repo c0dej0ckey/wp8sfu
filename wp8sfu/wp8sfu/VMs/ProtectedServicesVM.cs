@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 using wp8sfu.Services;
+using wp8sfu.Utilities;
 
 namespace wp8sfu.VMs
 {
@@ -35,7 +36,7 @@ namespace wp8sfu.VMs
         public void OpenService()
         {
             NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            if (LoginDetailsVM.Username.Equals(string.Empty) && LoginDetailsVM.Password.Equals(string.Empty))
+            if (Settings.ComputingId.Equals(string.Empty) && Settings.Password.Equals(string.Empty))
             {
                 navigationService.Navigate(new Uri("/Pages/LoginDetailsPage.xaml", UriKind.Relative));
             }
