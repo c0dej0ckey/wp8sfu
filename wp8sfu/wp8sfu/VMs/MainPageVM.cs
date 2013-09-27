@@ -19,6 +19,7 @@ namespace wp8sfu.VMs
 
         public MainPageVM()
         {
+            CookieService.LoadCookies();
         }
 
         public string LoginStatus

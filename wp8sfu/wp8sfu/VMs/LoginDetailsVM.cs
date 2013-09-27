@@ -109,7 +109,8 @@ namespace wp8sfu.VMs
 
                     OnPropertyChanged("Loading");
                 });
-            
+
+
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
             IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
 

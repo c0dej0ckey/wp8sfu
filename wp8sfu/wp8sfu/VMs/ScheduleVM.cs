@@ -59,20 +59,30 @@ namespace wp8sfu.VMs
 
         private void ExecuteRefreshSchedule(object parameter)
         {
-            //remove courses from classes.json
             Settings.DeleteCourses();
-            //set mCourses = new List
             Courses = new List<Course>();
-            //check for castgc cookie
-            if (CookieService.GetCookieWithName("BIGipServersims.sfu.ca_7001") != null)
-            {
-                //check that one of the sims cookies hasnt expired as well
-                GetSIMSResponseWithCookies();
-            }
-            else
-            {
+
+            //check for sims cookies
+            //Cookie simsCookie = CookieService.GetCookieWithName("https%3a%2f%2fgo.sfu.ca%2fpsp%2fgoprd%2fsfu_site%2fentp%2frefresh");
+
+            //if (simsCookie != null)
+            //{
+            //    if (simsCookie.Expired)
+            //    {
+
+            //        GetClasses();
+            //    }
+            //    else
+            //    {
+            //        //Cookie 
+            //        //check that one of the sims cookies hasnt expired as well
+            //        GetSIMSResponseWithCookies();
+            //    }
+            //}
+            //else
+            //{
                 GetClasses();
-            }
+            //}
 
         }
 
@@ -83,8 +93,20 @@ namespace wp8sfu.VMs
 
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG");
             request.CookieContainer = new CookieContainer();
+            foreach (Cookie cookie in CookieService.GetCookies())
+            {
+                if (cookie.Domain == ".sfu.ca")
+                    request.CookieContainer.Add(new Uri("http://www" + cookie.Domain + cookie.Path), cookie);
+                else if (cookie.Domain == "cas.sfu.ca")
+                {
+                    //request.CookieContainer.Add(new Uri("https://" + cookie.Domain + cookie.Path), cookie);
+                }
+                else
+                    request.CookieContainer.Add(new Uri("http://" + cookie.Domain + cookie.Path), cookie);
+            }
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
+            request.UserAgent = "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3";
             request.BeginGetRequestStream(new AsyncCallback(GetSIMSRequestStream), request);
 
 
@@ -111,9 +133,21 @@ namespace wp8sfu.VMs
             {
                 CookieService.AddCookie(cookie);
             }
+            CookieService.SaveCookies();
             HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
+            request2.Method = "GET";
+            request2.UserAgent = request.Headers["User Agent"];
             request2.CookieContainer = new CookieContainer();
-            request2.CookieContainer.Add(new Uri("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG"), response.Cookies);
+            CookieCollection cookies = request.CookieContainer.GetCookies(new Uri("https://go.sfu.ca"));
+            foreach(Cookie cookie in cookies)
+            {
+                if (cookie.Domain == ".sfu.ca")
+                    request2.CookieContainer.Add(new Uri("http://www" + cookie.Domain), cookie);
+                else
+                    request2.CookieContainer.Add(new Uri("https://" + cookie.Domain), cookie);
+            }
+
+            
             request2.BeginGetResponse(new AsyncCallback(GetClassesResponse), request2);
         }
 
@@ -126,6 +160,10 @@ namespace wp8sfu.VMs
             {
                 if (cookie.Domain == ".sfu.ca")
                     request.CookieContainer.Add(new Uri("http://www" + cookie.Domain + cookie.Path), cookie);
+                else if (cookie.Domain == "cas.sfu.ca")
+                {
+                    // request.CookieContainer.Add(new Uri("https://" + cookie.Domain + cookie.Path), cookie);
+                }
                 else
                     request.CookieContainer.Add(new Uri("http://" + cookie.Domain + cookie.Path), cookie);
             }
