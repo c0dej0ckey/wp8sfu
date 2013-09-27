@@ -63,26 +63,26 @@ namespace wp8sfu.VMs
             Courses = new List<Course>();
 
             //check for sims cookies
-            //Cookie simsCookie = CookieService.GetCookieWithName("https%3a%2f%2fgo.sfu.ca%2fpsp%2fgoprd%2fsfu_site%2fentp%2frefresh");
+            Cookie simsCookie = CookieService.GetCookieWithName("https%3a%2f%2fgo.sfu.ca%2fpsp%2fgoprd%2fsfu_site%2fentp%2frefresh");
 
-            //if (simsCookie != null)
-            //{
-            //    if (simsCookie.Expired)
-            //    {
+            if (simsCookie != null)
+            {
+                if (simsCookie.Expired)
+                {
 
-            //        GetClasses();
-            //    }
-            //    else
-            //    {
-            //        //Cookie 
-            //        //check that one of the sims cookies hasnt expired as well
-            //        GetSIMSResponseWithCookies();
-            //    }
-            //}
-            //else
-            //{
+                    GetClasses();
+                }
+                else
+                {
+                    //Cookie 
+                    //check that one of the sims cookies hasnt expired as well
+                    GetSIMSResponseWithCookies();
+                }
+            }
+            else
+            {
                 GetClasses();
-            //}
+            }
 
         }
 
@@ -133,7 +133,7 @@ namespace wp8sfu.VMs
             {
                 CookieService.AddCookie(cookie);
             }
-            CookieService.SaveCookies();
+            //CookieService.SaveCookies();
             HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
             request2.Method = "GET";
             request2.UserAgent = request.Headers["User Agent"];
@@ -155,15 +155,10 @@ namespace wp8sfu.VMs
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
             request.CookieContainer = new CookieContainer();
-            List<Cookie> cookies = CookieService.GetCookies();
-            foreach (Cookie cookie in CookieService.GetCookies())
+            foreach (Cookie cookie in CookieService.GetCookies().Where(c => c.Domain != "cas.sfu.ca"))
             {
                 if (cookie.Domain == ".sfu.ca")
                     request.CookieContainer.Add(new Uri("http://www" + cookie.Domain + cookie.Path), cookie);
-                else if (cookie.Domain == "cas.sfu.ca")
-                {
-                    // request.CookieContainer.Add(new Uri("https://" + cookie.Domain + cookie.Path), cookie);
-                }
                 else
                     request.CookieContainer.Add(new Uri("http://" + cookie.Domain + cookie.Path), cookie);
             }
