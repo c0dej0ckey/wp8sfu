@@ -71,8 +71,24 @@ namespace wp8sfu.VMs
 
         private void ExecuteLogin(object parameter)
         {
-            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            navigationService.Navigate(new Uri("/Pages/LoginDetailsPage.xaml", UriKind.Relative));
+            if (LoginStatus.Equals("LOGOUT"))
+            {
+                //delete cookies
+                //delete username/password/student id
+                //delete classes.json
+                CookieService.DeleteCookies();
+                Settings.ComputingId = "";
+                Settings.Password = "";
+                Settings.StudentId = "";
+                Settings.DeleteCourses();
+
+
+            }
+            else
+            {
+                NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+                navigationService.Navigate(new Uri("/Pages/LoginDetailsPage.xaml", UriKind.Relative));
+            }
         }
 
         private bool CanExecuteProtectedServices(object parameter)
