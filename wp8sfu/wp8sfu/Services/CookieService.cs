@@ -45,6 +45,17 @@ namespace wp8sfu.Services
             return mCookies.Where(c => c.Name == name).FirstOrDefault();
         }
 
+        public static void RemoveCookieWithName(string name)
+        {
+            Cookie cookie = mCookies.Where(c => c.Name == name).FirstOrDefault();
+            mCookies.Remove(cookie);
+        }
+
+        public static bool CookieExists(string name)
+        {
+            return mCookies.Where(c => c.Name == name).FirstOrDefault() != null;
+        }
+
         //public static void LoadCookies()
         //{
         //    try

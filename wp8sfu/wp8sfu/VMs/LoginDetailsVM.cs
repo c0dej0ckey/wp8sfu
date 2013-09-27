@@ -162,7 +162,12 @@ namespace wp8sfu.VMs
             Stream stream = stream = response.GetResponseStream();
             StreamReader reader = new StreamReader(stream);
             CookieCollection cookies = request.CookieContainer.GetCookies(new Uri("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login"));
+
             
+            if (CookieService.CookieExists("CASTGC"))
+            {
+                CookieService.RemoveCookieWithName("CASTGC");
+            }
             foreach(Cookie cookie in cookies)
             {
                 CookieService.AddCookie(cookie);
