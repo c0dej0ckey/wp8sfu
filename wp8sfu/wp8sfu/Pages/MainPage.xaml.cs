@@ -20,7 +20,6 @@ namespace wp8sfu.Pages
         public MainPage()
         {
             InitializeComponent();
-
             if (this.DataContext == null)
             {
                 this.DataContext = new MainPageVM();
@@ -37,7 +36,18 @@ namespace wp8sfu.Pages
             MainPageVM mainPageVM = (MainPageVM)this.DataContext;
             mainPageVM.NavigationService = this.NavigationService;
             ServiceLocator.AddService<NavigationService>(this.NavigationService);
+            mainPageVM.OnPropertyChanged("LoginStatus");
             base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if(e.Uri.OriginalString.Equals("/Pages/LoginDetailsPage.xaml"))
+            {
+                MainPageVM mainPageVM = this.DataContext as MainPageVM;
+                mainPageVM.OnPropertyChanged("LoginStatus");
+            }
+            base.OnNavigatedFrom(e);
         }
 
         // Sample code for building a localized ApplicationBar

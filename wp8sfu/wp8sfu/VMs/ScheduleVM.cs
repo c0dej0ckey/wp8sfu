@@ -62,7 +62,7 @@ namespace wp8sfu.VMs
             Settings.DeleteCourses();
             Courses = new List<Course>();
 
-            //check for sims cookies
+            //TODO : CHECK FOR RIGHT COOKIE
             Cookie simsCookie = CookieService.GetCookieWithName("https%3a%2f%2fgo.sfu.ca%2fpsp%2fgoprd%2fsfu_site%2fentp%2frefresh");
 
             if (simsCookie != null)
@@ -89,24 +89,19 @@ namespace wp8sfu.VMs
 
         private void GetClasses()
         {
-            //CookieCollection cookies = ServiceLocator.GetService<CookieCollection>();
 
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG");
             request.CookieContainer = new CookieContainer();
-            foreach (Cookie cookie in CookieService.GetCookies())
+            foreach (Cookie cookie in CookieService.GetCookies().Where(c => !c.Name.Equals("CASTGC")))
             {
                 if (cookie.Domain == ".sfu.ca")
                     request.CookieContainer.Add(new Uri("http://www" + cookie.Domain + cookie.Path), cookie);
-                else if (cookie.Domain == "cas.sfu.ca")
-                {
-                    //request.CookieContainer.Add(new Uri("https://" + cookie.Domain + cookie.Path), cookie);
-                }
                 else
                     request.CookieContainer.Add(new Uri("http://" + cookie.Domain + cookie.Path), cookie);
             }
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
-            request.UserAgent = "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3";
+            request.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 920)";
             request.BeginGetRequestStream(new AsyncCallback(GetSIMSRequestStream), request);
 
 
@@ -128,10 +123,13 @@ namespace wp8sfu.VMs
         {
             HttpWebRequest request = (HttpWebRequest)result.AsyncState;
             HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result);
-            CookieCollection responseCookies = response.Cookies;
-            foreach(Cookie cookie in response.Cookies)
+
+            Cookie casCookie = CookieService.GetCookieWithName("CASTGC");
+
+            CookieService.DeleteCookies();
+            if (casCookie != null)
             {
-                CookieService.AddCookie(cookie);
+                CookieService.AddCookie(casCookie);
             }
             //CookieService.SaveCookies();
             HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
@@ -146,7 +144,8 @@ namespace wp8sfu.VMs
                 else
                     request2.CookieContainer.Add(new Uri("https://" + cookie.Domain), cookie);
             }
-
+            foreach (Cookie cookie in cookies)
+                CookieService.AddCookie(cookie);
             
             request2.BeginGetResponse(new AsyncCallback(GetClassesResponse), request2);
         }

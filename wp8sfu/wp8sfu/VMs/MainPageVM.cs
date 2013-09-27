@@ -13,20 +13,21 @@ using System.Net;
 
 namespace wp8sfu.VMs
 {
-    public class MainPageVM
+    public class MainPageVM : INotifyPropertyChanged
     {
         private NavigationService mNavigationService;
 
         public MainPageVM()
         {
-            //CookieService.LoadCookies();
         }
+
+       
 
         public string LoginStatus
         {
             get
             {
-                if (LoginDetailsVM.LoginStatus)
+                if (CookieService.GetCookieWithName("CASTGC") != null)
                     return "LOGOUT";
                 return "LOGIN";
             }
@@ -119,5 +120,16 @@ namespace wp8sfu.VMs
             navigationService.Navigate(new Uri("/Pages/MapsPage.xaml", UriKind.Relative));
         }
 
+        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }

@@ -35,6 +35,11 @@ namespace wp8sfu.Services
             return mCookies;
         }
 
+        public static void DeleteCookies()
+        {
+            mCookies.Clear();
+        }
+
         public static Cookie GetCookieWithName(string name)
         {
             return mCookies.Where(c => c.Name == name).FirstOrDefault();
