@@ -24,7 +24,6 @@ namespace wp8sfu
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
 
-        private string mKey;
 
         /// <summary>
         /// Constructor for the Application object.
@@ -41,7 +40,6 @@ namespace wp8sfu
             // Phone-specific initialization
             InitializePhoneApplication();
 
-            IAsyncResult response = null;
            
 
             // Language display initialization

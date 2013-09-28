@@ -83,14 +83,11 @@ namespace wp8sfu.VMs
         {
             if (LoginStatus.Equals("LOGOUT"))
             {
-                //delete cookies
-                //delete username/password/student id
-                //delete classes.json
                 CookieService.DeleteCookies();
                 Settings.ComputingId = "";
                 Settings.Password = "";
-               // Settings.StudentId = "";
                 Settings.DeleteCourses();
+
                 OnPropertyChanged("LoginStatus");
 
             }
@@ -146,6 +143,7 @@ namespace wp8sfu.VMs
             navigationService.Navigate(new Uri("/Pages/MapsPage.xaml", UriKind.Relative));
         }
 
+        #region AutoLogin 
         private void GetLoginResponseCallback(IAsyncResult asyncResult)
         {
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
@@ -229,7 +227,7 @@ namespace wp8sfu.VMs
 
             return null;
         }
-
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 

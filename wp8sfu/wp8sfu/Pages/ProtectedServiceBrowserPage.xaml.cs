@@ -29,7 +29,7 @@ namespace wp8sfu.Pages
                 navigationService.RemoveBackEntry();
             }
             mBrowser = this.FindName("Browser") as WebBrowser;
-            
+            mBrowser.Visibility = Visibility.Collapsed;
             mBrowser.LoadCompleted += mBrowser_LoadCompleted;
             SetBrowserNavigationUrl(mService, mBrowser);
         }
@@ -45,6 +45,18 @@ namespace wp8sfu.Pages
                         mBrowser.InvokeScript(
                             "eval", string.Format("document.getElementById('computingId').value='{0}'; document.getElementById('password').value='{1}';document.forms[0].submit();", Settings.ComputingId, LoginDetailsVM.Password));
                     });
+            }
+            else if (uri.OriginalString ==  "https://go.sfu.ca/psp/goprd/?cmd=login&errorPg=err&languageCd=ENG")
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        mBrowser.InvokeScript(
+                            "eval", string.Format("document.getElementById('user').value='{0}'; document.getElementById('pwd').value='{1}';document.getElementById('userid').value='{2}'; document.forms[0].submit();", Settings.ComputingId, Settings.Password, Settings.ComputingId.ToUpper()));
+                    });
+            }
+            else
+            {
+                mBrowser.Visibility = Visibility.Visible;
             }
         }
 

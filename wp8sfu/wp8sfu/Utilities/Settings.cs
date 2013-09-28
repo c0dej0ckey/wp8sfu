@@ -19,7 +19,6 @@ namespace wp8sfu.Utilities
     {
         private static string sComputingId = "COMPUTINGID";
         private static string sPassword = "PASSWORD";
-        private static string sStudentId = "STUDENTID";
 
         public static string ComputingId
         {
