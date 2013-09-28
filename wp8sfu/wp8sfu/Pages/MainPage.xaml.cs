@@ -50,6 +50,8 @@ namespace wp8sfu.Pages
             base.OnNavigatedFrom(e);
         }
 
+        
+
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{

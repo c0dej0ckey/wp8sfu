@@ -7,6 +7,12 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using wp8sfu.Resources;
+using System.Net;
+using System.IO;
+using HtmlAgilityPack;
+using System.Text;
+using wp8sfu.Services;
+using wp8sfu.Utilities;
 
 namespace wp8sfu
 {
@@ -17,6 +23,8 @@ namespace wp8sfu
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
+
+        private string mKey;
 
         /// <summary>
         /// Constructor for the Application object.
@@ -32,6 +40,9 @@ namespace wp8sfu
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
+            IAsyncResult response = null;
+           
 
             // Language display initialization
             InitializeLanguage();
@@ -57,13 +68,19 @@ namespace wp8sfu
             }
 
 
+
+
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            //try to login
+            
         }
+
+        
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched

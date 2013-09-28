@@ -10,15 +10,25 @@ using wp8sfu.Services;
 using wp8sfu.Utilities;
 using wp8sfu.UI;
 using System.Net;
+using System.IO;
+using HtmlAgilityPack;
+using System.Windows;
+using Microsoft.Phone.Controls;
 
 namespace wp8sfu.VMs
 {
     public class MainPageVM : INotifyPropertyChanged
     {
         private NavigationService mNavigationService;
+        private string mKey;
 
         public MainPageVM()
         {
+            if (Settings.ComputingId != string.Empty && Settings.Password != string.Empty)
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
+                IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+            }
         }
 
        
@@ -136,7 +146,90 @@ namespace wp8sfu.VMs
             navigationService.Navigate(new Uri("/Pages/MapsPage.xaml", UriKind.Relative));
         }
 
-        
+        private void GetLoginResponseCallback(IAsyncResult asyncResult)
+        {
+            HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
+            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asyncResult);
+            Stream stream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(stream);
+            string responseString = reader.ReadToEnd();
+            HtmlDocument document = new HtmlDocument();
+            document.OptionFixNestedTags = true;
+            document.LoadHtml(responseString);
+            HtmlNode node = CheckLine(document.DocumentNode);
+            HtmlAttribute attribute = node.Attributes[1];
+            mKey = attribute.Value;
+            LoginUser();
+        }
+
+        private void LoginUser()
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
+            request.CookieContainer = new CookieContainer();
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Method = "POST";
+            request.BeginGetRequestStream(new AsyncCallback(GetLoginRequestStreamCallback), request);
+        }
+
+        private void GetLoginRequestStreamCallback(IAsyncResult asyncResult)
+        {
+            HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
+
+            Stream stream = request.EndGetRequestStream(asyncResult);
+            string loginData = "username=" + Settings.ComputingId + "&password=" + Settings.Password + "&lt=" + mKey;
+            byte[] bytes = Encoding.UTF8.GetBytes(loginData);
+            stream.Write(bytes, 0, loginData.Length);
+            stream.Close();
+
+            request.BeginGetResponse(new AsyncCallback(GetLoggedInCallback), request);
+        }
+
+        private void GetLoggedInCallback(IAsyncResult asyncResult)
+        {
+            HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
+            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asyncResult);
+            Stream stream = stream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(stream);
+            CookieCollection cookies = request.CookieContainer.GetCookies(new Uri("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login"));
+
+
+            if (CookieService.CookieExists("CASTGC"))
+            {
+                CookieService.RemoveCookieWithName("CASTGC");
+            }
+            foreach (Cookie cookie in cookies)
+            {
+
+                if (cookie.Name == "CASTGC")
+                {
+                    CookieService.AddCookie(cookie);
+
+
+                }
+            }
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    OnPropertyChanged("LoginStatus");
+                });
+        }
+
+        private static HtmlNode CheckLine(HtmlNode node)
+        {
+            if (node.Line == 55)
+            {
+                return node;
+            }
+            foreach (HtmlNode nd in node.ChildNodes)
+            {
+                var val = CheckLine(nd);
+                if (val != null)
+                    return val;
+            }
+
+
+            return null;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
