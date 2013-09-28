@@ -79,9 +79,9 @@ namespace wp8sfu.VMs
                 CookieService.DeleteCookies();
                 Settings.ComputingId = "";
                 Settings.Password = "";
-                Settings.StudentId = "";
+               // Settings.StudentId = "";
                 Settings.DeleteCourses();
-
+                OnPropertyChanged("LoginStatus");
 
             }
             else

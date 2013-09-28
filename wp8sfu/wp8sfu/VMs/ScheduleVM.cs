@@ -89,7 +89,6 @@ namespace wp8sfu.VMs
 
         private void GetClasses()
         {
-
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://go.sfu.ca/psp/goprd/?cmd=login&languageCd=ENG");
             request.CookieContainer = new CookieContainer();
             foreach (Cookie cookie in CookieService.GetCookies().Where(c => !c.Name.Equals("CASTGC")))
@@ -131,12 +130,16 @@ namespace wp8sfu.VMs
             {
                 CookieService.AddCookie(casCookie);
             }
-            //CookieService.SaveCookies();
-            HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
+            CookieCollection cookies = request.CookieContainer.GetCookies(new Uri("https://go.sfu.ca"));
+            foreach (Cookie cookie in cookies)
+                CookieService.AddCookie(cookie);
+            //Settings.GetStudentId();
+            string request2String = string.Format("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&INSTITUTION=SFUNV&STRM={0}", SemesterHelper.GetSemesterId());
+            HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create(request2String);
             request2.Method = "GET";
             request2.UserAgent = request.Headers["User Agent"];
             request2.CookieContainer = new CookieContainer();
-            CookieCollection cookies = request.CookieContainer.GetCookies(new Uri("https://go.sfu.ca"));
+            
             foreach(Cookie cookie in cookies)
             {
                 if (cookie.Domain == ".sfu.ca")
@@ -144,8 +147,7 @@ namespace wp8sfu.VMs
                 else
                     request2.CookieContainer.Add(new Uri("https://" + cookie.Domain), cookie);
             }
-            foreach (Cookie cookie in cookies)
-                CookieService.AddCookie(cookie);
+            
             
             request2.BeginGetResponse(new AsyncCallback(GetClassesResponse), request2);
         }

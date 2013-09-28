@@ -1,14 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using wp8sfu.Entities;
+using wp8sfu.Services;
 
 namespace wp8sfu.Utilities
 {
@@ -60,26 +63,64 @@ namespace wp8sfu.Utilities
             }
         }
 
-        public static string StudentId
-        {
-            get
-            {
-                if (IsolatedStorageSettings.ApplicationSettings.Contains(sStudentId))
-                {
-                    var bytes = IsolatedStorageSettings.ApplicationSettings[sStudentId] as byte[];
-                    var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
-                    return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
-                }
-                else
-                    return string.Empty;
-            }
-            set
-            {
-                var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
-                IsolatedStorageSettings.ApplicationSettings[sStudentId] = encryptedBytes;
-                IsolatedStorageSettings.ApplicationSettings.Save();
-            }
-        }
+        //public static string StudentId
+        //{
+        //    get
+        //    {
+        //        if (IsolatedStorageSettings.ApplicationSettings.Contains(sStudentId))
+        //        {
+        //            var bytes = IsolatedStorageSettings.ApplicationSettings[sStudentId] as byte[];
+        //            var unEncryptedBytes = ProtectedData.Unprotect(bytes, null);
+        //            return Encoding.UTF8.GetString(unEncryptedBytes, 0, unEncryptedBytes.Length);
+        //        }
+        //        else
+        //            return string.Empty;
+        //    }
+        //    set
+        //    {
+        //        var encryptedBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(value), null);
+        //        IsolatedStorageSettings.ApplicationSettings[sStudentId] = encryptedBytes;
+        //        IsolatedStorageSettings.ApplicationSettings.Save();
+        //    }
+        //}
+
+
+        //public static void GetStudentId()
+        //{
+        //    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://go.sfu.ca/psp/goprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL");
+        //    request.CookieContainer = new CookieContainer();
+        //    foreach (Cookie cookie in CookieService.GetCookies().Where(c => c.Domain != "cas.sfu.ca"))
+        //    {
+        //        if (cookie.Domain == ".sfu.ca")
+        //            request.CookieContainer.Add(new Uri("http://www" + cookie.Domain + cookie.Path), cookie);
+        //        else
+        //            request.CookieContainer.Add(new Uri("http://" + cookie.Domain + cookie.Path), cookie);
+        //    }
+        //    request.Method = "GET";
+        //    request.BeginGetResponse(new AsyncCallback(GetStudentIdResponse), request);
+        //}
+
+        //private static void GetStudentIdResponse(IAsyncResult result)
+        //{
+        //    HttpWebRequest request = (HttpWebRequest)result.AsyncState;
+        //    HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result);
+        //    Stream stream = response.GetResponseStream();
+        //    StreamReader reader = new StreamReader(stream);
+        //    StringBuilder sb = new StringBuilder();
+        //    string line = null;
+        //    while ((line = reader.ReadLine()) != null)
+        //    {
+        //        sb.Append(line);
+        //    }
+        //    HtmlDocument document = new HtmlDocument();
+        //    document.LoadHtml(sb.ToString());
+        //    HtmlNode idNode = document.GetElementbyId("DERIVED_SSS_SCL_EMPLID");
+        //    StudentId = idNode.InnerText;
+
+
+        //}
+
+
 
         public static void SaveCourses(List<Course> courses)
         {

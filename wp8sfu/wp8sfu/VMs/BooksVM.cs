@@ -72,9 +72,14 @@ namespace wp8sfu.VMs
                 JArray bookArray = (JArray)course["books"];
                 foreach(JObject book in bookArray)
                 {
+                    string title = book["title"].ToString();
+                    if(title == "No Books Found")
+                    {
+                        continue;
+                    }
                     string className = course["courseAcdeptcode"].ToString();
                     string classNumber = course["courseClass"].ToString();
-                    string title = book["title"].ToString();
+                    
                     string author = book["author"].ToString();
                     string status = book["bookstatus"].ToString();
                     string isbn = book["isbn"].ToString();
