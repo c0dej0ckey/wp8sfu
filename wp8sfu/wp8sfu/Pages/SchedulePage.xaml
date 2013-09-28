@@ -37,25 +37,54 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
-            <ListBox ItemsSource="{Binding Courses, Mode=TwoWay, UpdateSourceTrigger=Default}">
+            <ListBox ItemsSource="{Binding Courses, Mode=TwoWay, UpdateSourceTrigger=Default}" HorizontalContentAlignment="Stretch" >
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding ClassName}" />
-                            <TextBlock Text="{Binding Section}" />
-                            <TextBlock Text="{Binding Days}" />
-                            <StackPanel Orientation="Vertical">
-                                <ItemsControl ItemsSource="{Binding CourseOfferings}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Background="Gray">
-                                                <TextBlock Text="{Binding StartTime}" />
-                                                <TextBlock Text="{Binding EndTime}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
+                        <StackPanel Orientation="Vertical" Background="Gray"  Margin="0 5 0 5">
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"  />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5 5 5 5">
+                                    <TextBlock Text="{Binding ClassName}" FontSize="20" />    
+                                    <TextBlock Text="{Binding Type}" FontStyle="Italic" />
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5 5 5 5">
+                                    <ItemsControl ItemsSource="{Binding CourseOfferings}" Foreground="Black">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="{Binding StartTime}" />
+                                                    <TextBlock Text=" - " />
+                                                    <TextBlock Text="{Binding EndTime}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <TextBlock Text="" />
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Section:   " FontStyle="Italic" />
+                                            <TextBlock Text="{Binding Section}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Professor: " FontStyle="Italic" />
+                                            <TextBlock Text="{Binding Instructor}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                            </Grid>
+                            
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
