@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace wp8sfu.Entities
 {
@@ -16,6 +17,7 @@ namespace wp8sfu.Entities
         private string mIsbn;
         private float mNewPrice;
         private float mUsedPrice;
+        private BitmapImage mImage;
 
         public Book(string className, string classNumber, string title, string author, string status, string isbn, float newPrice, float usedPrice)
         {
@@ -76,6 +78,12 @@ namespace wp8sfu.Entities
         {
             get { return this.mUsedPrice; }
             set { this.mUsedPrice = value; }
+        }
+
+        public BitmapImage Image
+        {
+            get { return this.mImage; }
+            set { this.mImage = value; }
         }
     }
 }

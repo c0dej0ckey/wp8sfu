@@ -30,21 +30,41 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
             
-            <ListBox x:Name="BooksListBox" ItemsSource="{Binding Books, Mode=TwoWay,UpdateSourceTrigger=Default}" >
+            <ListBox x:Name="BooksListBox" ItemsSource="{Binding Books, Mode=TwoWay,UpdateSourceTrigger=Default}" HorizontalContentAlignment="Stretch" >
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel >
-                            <TextBlock Text="{Binding ClassName}" />
-                            <TextBlock Text="{Binding Title}"/>
-                            <TextBlock Text="{Binding Author}" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="New Price:" />
-                                <TextBlock Text="{Binding NewPrice}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Used Price:" />
-                                <TextBlock Text="{Binding UsedPrice}" />
-                            </StackPanel>
+                        <StackPanel Background="Gray" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0" Orientation="Vertical" Height="150" Width="150">
+                                    <Image Source="{Binding Image}" />
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="1" Orientation="Vertical">
+                                    <TextBlock Text="{Binding Title}"/>
+                                    <TextBlock Text="{Binding Author}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="New Price: $" />
+                                        <TextBlock Text="{Binding NewPrice}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Used Price: $" />
+                                        <TextBlock Text="{Binding UsedPrice}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                            </Grid>
+                            
+                            
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
