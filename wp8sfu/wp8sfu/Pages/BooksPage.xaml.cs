@@ -22,6 +22,16 @@ namespace wp8sfu.Pages
             }
         }
 
+        private void BooksListBox_LayoutUpdated(object sender, EventArgs e)
+        {
+            BooksVM vm = this.DataContext as BooksVM;
+            ListBox listBox = this.FindName("BooksListBox") as ListBox;
+            listBox.ItemsSource = vm.Books;
+            //force data bind refresh
+        }
+
+        
+
 
 
 

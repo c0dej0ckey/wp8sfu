@@ -30,7 +30,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 
             
-            <ListBox x:Name="BooksListBox" ItemsSource="{Binding Books, Mode=TwoWay,UpdateSourceTrigger=Default}" HorizontalContentAlignment="Stretch" >
+            <ListBox x:Name="BooksListBox" ItemsSource="{Binding Books, Mode=TwoWay,UpdateSourceTrigger=Default}" LayoutUpdated="BooksListBox_LayoutUpdated" HorizontalContentAlignment="Stretch" >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -46,7 +46,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <StackPanel Grid.Column="0" Orientation="Vertical" Height="150" Width="150">
-                                    <Image Source="{Binding Image}" />
+                                    <Image Source="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=Default}" LayoutUpdated="BooksListBox_LayoutUpdated" />
                                 </StackPanel>
                                 
                                 <StackPanel Grid.Column="1" Orientation="Vertical">

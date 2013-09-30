@@ -25,8 +25,6 @@ namespace wp8sfu.VMs
 
         public BooksVM()
         {
-            if (Books.Count == 0)
-            {
                 Books = new ObservableCollection<Book>();
                 List<Course> courses = Settings.LoadCourses();
                 courses = courses.Where(c => c.Type == "Lecture").ToList();
@@ -51,7 +49,6 @@ namespace wp8sfu.VMs
                     });
 
                 }
-            }
 
 
         }
@@ -147,7 +144,7 @@ namespace wp8sfu.VMs
                     JObject item = items[0] as JObject;
                     JObject volumeInfo = item["volumeInfo"] as JObject;
                     JObject imageLinks = volumeInfo["imageLinks"] as JObject;
-                    string thumbNail = imageLinks["thumbnail"].ToString();
+                    string thumbNail = imageLinks["smallThumbnail"].ToString();
                     WebClient client = new WebClient();
                     client.OpenReadCompleted += client_OpenReadCompleted;
                     client.Headers["Isbn"] = request.RequestUri.OriginalString.Split(':')[2];
@@ -169,11 +166,15 @@ namespace wp8sfu.VMs
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 BitmapImage img = new BitmapImage();
+                
                 img.SetSource(e.Result);
 
                 string isbn = client.Headers["Isbn"].ToString();
                 Book book = mBooks.Where(b => b.Isbn == isbn).FirstOrDefault();
                 book.Image = img;
+                int index = Books.IndexOf(book);
+                Books.RemoveAt(index);
+                Books.Insert(index, book);
                 OnPropertyChanged("Books");
             });
         }
