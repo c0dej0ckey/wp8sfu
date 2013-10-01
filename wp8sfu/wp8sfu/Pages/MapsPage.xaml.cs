@@ -21,53 +21,60 @@ namespace wp8sfu.Pages
 
         private void GetCampus_ForSelection(object sender, SelectionChangedEventArgs e)
         {
-            ListPicker picker = sender as ListPicker;
-            ListPicker floorBuildingPicker = (ListPicker)picker.FindName("FloorBuildingPicker");
-            ListPicker roomPicker = (ListPicker)picker.FindName("RoomPicker");
+            ListPicker campusPicker = sender as ListPicker;
+            ListPicker floorPicker = this.FindName("FloorBuildingPicker") as ListPicker;
+            ListPicker roomPicker = this.FindName("RoomPicker") as ListPicker;
+            ListPicker buildingPicker = this.FindName("BuildingPicker") as ListPicker;
+            
 
-            if ( picker.SelectedItem != null && picker.SelectedItem.ToString() != ""  )
+            if (campusPicker.SelectedItem != null && campusPicker.SelectedItem.ToString() != "")
             {
 
-                if(picker.SelectedItem.Equals("Burnaby Campus"))
+                if (campusPicker.SelectedItem.Equals("Burnaby Campus"))
                 {
                     roomPicker.Visibility = Visibility.Collapsed;
-                    if(floorBuildingPicker.Visibility == Visibility.Collapsed)
+                    if (floorPicker.Visibility == Visibility.Collapsed)
                     {
-                        floorBuildingPicker.Visibility = Visibility.Visible;
+                        floorPicker.Visibility = Visibility.Visible;
                     }
-                    floorBuildingPicker.Header = "Building";
+                    if (floorPicker.Visibility == Visibility.Visible)
+                    {
+                        floorPicker.Visibility = Visibility.Collapsed;
+                        buildingPicker.Visibility = Visibility.Visible;
+                    }
 
                 }
-                else if(picker.SelectedItem.Equals("Surrey Campus"))
+                else if (campusPicker.SelectedItem.Equals("Surrey Campus"))
                 {
-                    floorBuildingPicker.Header = "Floor";
-                    if(floorBuildingPicker.Visibility == Visibility.Collapsed)
+                    floorPicker.Header = "Floor";
+                    if (floorPicker.Visibility == Visibility.Collapsed)
                     {
-                        floorBuildingPicker.Visibility = Visibility.Visible;
+                        floorPicker.Visibility = Visibility.Visible;
+                        buildingPicker.Visibility = Visibility.Collapsed;
                     }
-                    //roomPicker.Visibility = Visibility.Visible;
                 }
             }
             else
             {
                 roomPicker.Visibility = System.Windows.Visibility.Collapsed;
-                floorBuildingPicker.Visibility = System.Windows.Visibility.Collapsed;
+                floorPicker.Visibility = System.Windows.Visibility.Collapsed;
+                buildingPicker.Visibility = Visibility.Collapsed;
             }
 
         }
 
         private void GetRoom_FloorSelection(object sender, SelectionChangedEventArgs e)
         {
-            ListPicker floorBuildingPicker = sender as ListPicker;
-            ListPicker campusPicker = floorBuildingPicker.FindName("CampusListPicker") as ListPicker;
-            ListPicker roomPicker = floorBuildingPicker.FindName("RoomPicker") as ListPicker;
-
+            ListPicker floorPicker = sender as ListPicker;
+            ListPicker campusPicker = this.FindName("CampusListPicker") as ListPicker;
+            ListPicker roomPicker = this.FindName("RoomPicker") as ListPicker;
+            
             if (campusPicker.SelectedItem != null && campusPicker.SelectedItem.ToString() != "")
             {
 
                 if (campusPicker.SelectedItem.Equals("Surrey Campus"))
                 {
-                    if (floorBuildingPicker.SelectedItem != null && floorBuildingPicker.SelectedItem.ToString() != "")
+                    if (floorPicker.SelectedItem != null && floorPicker.SelectedItem.ToString() != "")
                     {
                         roomPicker.Visibility = Visibility.Visible;
                     }
@@ -78,5 +85,6 @@ namespace wp8sfu.Pages
                 }
             }
         }
+
     }
 }

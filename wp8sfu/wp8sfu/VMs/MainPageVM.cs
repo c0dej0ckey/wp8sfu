@@ -24,10 +24,14 @@ namespace wp8sfu.VMs
 
         public MainPageVM()
         {
-            if (Settings.ComputingId != string.Empty && Settings.Password != string.Empty)
+
+            if (!CookieService.CookieExists("CASTGC"))
             {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
-                IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+                if (Settings.ComputingId != string.Empty && Settings.Password != string.Empty)
+                {
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
+                    IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+                }
             }
         }
 
@@ -72,6 +76,11 @@ namespace wp8sfu.VMs
         public ICommand MapsCommand
         {
             get { return new DelegateCommand(ExecuteMaps, CanExecuteMaps); }
+        }
+
+        public ICommand TransitCommand
+        {
+            get { return new DelegateCommand(ExecuteTransit, CanExecuteTransit); }
         }
 
         private bool CanExecuteLogin(object parameter)
@@ -141,6 +150,17 @@ namespace wp8sfu.VMs
         {
             NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
             navigationService.Navigate(new Uri("/Pages/MapsPage.xaml", UriKind.Relative));
+        }
+
+        private bool CanExecuteTransit(object parameter)
+        {
+            return true;
+        }
+
+        private void ExecuteTransit(object parameter)
+        {
+            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+            navigationService.Navigate(new Uri("/Pages/TransitPage.xaml", UriKind.Relative));
         }
 
         #region AutoLogin 

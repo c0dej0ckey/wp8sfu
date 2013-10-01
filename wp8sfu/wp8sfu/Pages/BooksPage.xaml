@@ -50,8 +50,8 @@
                                 </StackPanel>
                                 
                                 <StackPanel Grid.Column="1" Orientation="Vertical">
-                                    <TextBlock Text="{Binding Title}"/>
-                                    <TextBlock Text="{Binding Author}" />
+                                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Author}" TextWrapping="Wrap" />
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="New Price: $" />
                                         <TextBlock Text="{Binding NewPrice}" />

@@ -23,17 +23,18 @@ namespace wp8sfu.VMs
     {
         private List<string> mCampuses = new List<string>() { string.Empty, "Burnaby Campus", "Surrey Campus" };
         private List<string> mSurreyFloors = new List<string>() { string.Empty, "Galleria 3", "Galleria 4", "Galleria 5", "Podium 2" };
-        private List<string> mBurnabyBuildings;
+        private List<string> mBuildings;
+        private string mSelectedBuilding;
         private List<Room> mRooms;
-        private string mSurreySelectedFloor;
-        private Room mSurreySelectedRoom;
+        private string mSelectedFloor;
+        private Room mSelectedRoom;
         private string mSelectedCampus;
 
         public MapsVM()
         {
             mRooms = new List<Room>();
 
-            mBurnabyBuildings = new List<string>();
+            mBuildings = new List<string>();
 
             string dir = Directory.GetCurrentDirectory();
             StreamReader reader = null;
@@ -61,7 +62,7 @@ namespace wp8sfu.VMs
 
         private bool CanExecuteGetRoom(object parameter)
         {
-            if(SurreySelectedRoom != null)
+            if(SelectedRoom != null)
             {
                 return true;
             }
@@ -70,10 +71,10 @@ namespace wp8sfu.VMs
 
         private void ExecuteGetRoom(object parameter)
         {
-            PhoneApplicationService.Current.State["SelectedRoom"] = SurreySelectedRoom;
+            PhoneApplicationService.Current.State["SelectedRoom"] = SelectedRoom;
             if (mSelectedCampus == "Surrey Campus")
             {
-                PhoneApplicationService.Current.State["SelectedEntity"] = SurreySelectedFloor;
+                PhoneApplicationService.Current.State["SelectedEntity"] = SelectedFloor;
             }
             else
             {
@@ -95,7 +96,7 @@ namespace wp8sfu.VMs
                     }
                     else if (SelectedCampus.Equals("Burnaby Campus"))
                     {
-                        return this.mBurnabyBuildings;
+                        return this.mBuildings;
                     }
                 }
                 return null;
@@ -107,20 +108,20 @@ namespace wp8sfu.VMs
         }
 
 
-        public string SurreySelectedFloor
+        public string SelectedFloor
         {
-            get { return this.mSurreySelectedFloor; }
-            set { this.mSurreySelectedFloor = value;
+            get { return this.mSelectedFloor; }
+            set { this.mSelectedFloor = value;
             OnPropertyChanged("Rooms");
             }
         }
 
-        public Room SurreySelectedRoom
+        public Room SelectedRoom
         {
-            get { return this.mSurreySelectedRoom; }
+            get { return this.mSelectedRoom; }
             set 
             { 
-                this.mSurreySelectedRoom = value;
+                this.mSelectedRoom = value;
                 OnPropertyChanged("GetRoomCommand");
             }
         }
@@ -130,9 +131,9 @@ namespace wp8sfu.VMs
             get 
             {
                 OnPropertyChanged("GetRoomCommand");
-                if(SurreySelectedFloor != null && SurreySelectedFloor != "")
+                if(SelectedFloor != null && SelectedFloor != "")
                 {
-                    string floorNumber = SurreySelectedFloor.Split(' ')[1];
+                    string floorNumber = SelectedFloor.Split(' ')[1];
                     return mRooms.Where(e => e.Number.First() == floorNumber[0]).ToList<Room>();
                 }
 
@@ -156,6 +157,18 @@ namespace wp8sfu.VMs
         {
             get { return this.mCampuses; }
             set { this.mCampuses = value; }
+        }
+
+        public List<string> Buildings
+        {
+            get { return this.mBuildings; }
+            set { this.mBuildings = value; }
+        }
+
+        public string SelectedBuilding
+        {
+            get { return this.mSelectedBuilding; }
+            set { this.mSelectedBuilding = value; }
         }
 
 

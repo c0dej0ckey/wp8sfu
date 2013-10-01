@@ -50,13 +50,18 @@
                
             </wptk:ListPicker>
 
-            <wptk:ListPicker x:Name="FloorBuildingPicker" Grid.Row="1" Header="Floor" ItemsSource="{Binding Floors, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectedItem="{Binding SurreySelectedFloor, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectionChanged="GetRoom_FloorSelection" >
+            <wptk:ListPicker x:Name="FloorBuildingPicker" Grid.Row="1" Header="Floor" ItemsSource="{Binding Floors, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectedItem="{Binding SelectedFloor, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectionChanged="GetRoom_FloorSelection" >
                 
+                
+            </wptk:ListPicker>
+            
+            <wptk:ListPicker x:Name="BuildingPicker" Grid.Row="1" Header="Building" ItemsSource="{Binding Buildings, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectedItem="{Binding SelectedBuilding, Mode=TwoWay, UpdateSourceTrigger=Default}"
+                              Visibility="Collapsed">
                 
             </wptk:ListPicker>
 
 
-            <wptk:ListPicker x:Name="RoomPicker"  Grid.Row="2" Header="Room" ItemsSource="{Binding Rooms, Mode=TwoWay, UpdateSourceTrigger=Default}"  DisplayMemberPath="Name" SelectedItem="{Binding SurreySelectedRoom, Mode=TwoWay, UpdateSourceTrigger=Default}" >
+            <wptk:ListPicker x:Name="RoomPicker"  Grid.Row="2" Header="Room" ItemsSource="{Binding Rooms, Mode=TwoWay, UpdateSourceTrigger=Default}"  DisplayMemberPath="Name" SelectedItem="{Binding SelectedRoom, Mode=TwoWay, UpdateSourceTrigger=Default}" >
                 <wptk:ListPicker.FullModeItemTemplate>
                     <DataTemplate>
                         <StackPanel>

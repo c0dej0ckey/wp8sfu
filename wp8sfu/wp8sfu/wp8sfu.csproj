@@ -145,6 +145,7 @@
     <Compile Include="Pages\TransitPage.xaml.cs">
       <DependentUpon>TransitPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VMs\TransitVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="Pages\App.xaml">
