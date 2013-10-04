@@ -18,5 +18,7 @@ namespace wp8sfu.Pages
             InitializeComponent();
             this.DataContext = new TransitVM();
         }
+
+        
     }
 }

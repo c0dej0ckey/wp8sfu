@@ -28,7 +28,54 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ListBox ItemsSource="{Binding BurnabyBusRoutes, Mode=TwoWay, UpdateSourceTrigger=Default}" HorizontalContentAlignment="Stretch" >
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Background="Gray"  Margin="0 5 0 5">
 
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"  />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5 5 5 5">
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" >
+                                        <TextBlock Text="{Binding RouteNumber}" FontSize="20" />
+                                        <TextBlock Text=" - " />
+                                        <TextBlock Text="{Binding RouteName}" FontStyle="Italic" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding BusRouteTimes}" Foreground="Black">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="{Binding}" />
+                                                    <TextBlock Text="  " />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                </StackPanel>
+
+                                
+                                   
+
+                            </Grid>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 

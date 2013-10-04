@@ -31,6 +31,11 @@ namespace wp8sfu.Entities
             set { this.mRouteName = value; }
         }
 
+        public List<string> BusRouteTimes
+        {
+            get { return this.mBusRouteTimes; }
+        }
+
         public void AddRouteTime(string time)
         {
             mBusRouteTimes.Add(time);
