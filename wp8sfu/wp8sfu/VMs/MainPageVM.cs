@@ -114,8 +114,21 @@ namespace wp8sfu.VMs
 
         private void ExecuteProtectedServices(object parameter)
         {
-            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            navigationService.Navigate(new Uri("/Pages/ProtectedServicesPage.xaml", UriKind.Relative));
+            
+            if(Settings.ComputingId == string.Empty && Settings.Password == string.Empty)
+            {
+                MessageBox.Show("Please Login.", "Login Status", MessageBoxButton.OK);
+            }
+            else if (!CookieService.CookieExists("CASTGC"))
+            {
+                MessageBox.Show("Wrong Computing Id or Password or Not Logged In", "Login Status", MessageBoxButton.OK);
+            }
+            else
+            {
+
+                NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+                navigationService.Navigate(new Uri("/Pages/ProtectedServicesPage.xaml", UriKind.Relative));
+            }
         }
 
         private bool CanExecuteCourses(object parameter)
@@ -125,8 +138,20 @@ namespace wp8sfu.VMs
 
         private void ExecuteCourses(object parameter)
         {
-            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            navigationService.Navigate(new Uri("/Pages/SchedulePage.xaml", UriKind.Relative));
+            if (Settings.ComputingId == string.Empty && Settings.Password == string.Empty)
+            {
+                MessageBox.Show("Please Login.", "Login Status", MessageBoxButton.OK);
+            }
+            else if (!CookieService.CookieExists("CASTGC"))
+            {
+                MessageBox.Show("Wrong Computing Id or Password or Not Logged In", "Login Status", MessageBoxButton.OK);
+            }
+            else
+            {
+
+                NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+                navigationService.Navigate(new Uri("/Pages/SchedulePage.xaml", UriKind.Relative));
+            }
         }
 
         private bool CanExecuteBooks(object parameter)
@@ -136,8 +161,17 @@ namespace wp8sfu.VMs
 
         private void ExecuteBooks(object parameter)
         {
-            NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
-            navigationService.Navigate(new Uri("/Pages/BooksPage.xaml", UriKind.Relative));
+            List<wp8sfu.Entities.Course> courses = Settings.LoadCourses();
+            if (courses == null || Settings.LoadCourses().Count == 0)
+            {
+                MessageBox.Show("No courses found, please refresh courses before retrieving books", "No Courses Found", MessageBoxButton.OK);
+            }
+            else
+            {
+
+                NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
+                navigationService.Navigate(new Uri("/Pages/BooksPage.xaml", UriKind.Relative));
+            }
         }
 
         private bool CanExecuteMaps(object parameter)
