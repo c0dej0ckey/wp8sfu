@@ -30,7 +30,7 @@ namespace wp8sfu.VMs
         public ScheduleVM()
         {
             
-
+            
             //code for semester change
             IsolatedStorageFile fileStorage = IsolatedStorageFile.GetUserStoreForApplication();
             if (fileStorage.FileExists("classes.json"))
@@ -154,7 +154,7 @@ namespace wp8sfu.VMs
 
         private void GetSIMSResponseWithCookies()
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM=" + SemesterHelper.GetSemesterId());
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(string.Format("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=&INSTITUTION=SFUNV&STRM={0}", SemesterHelper.GetSemesterId()));
             request.CookieContainer = new CookieContainer();
             foreach (Cookie cookie in CookieService.GetCookies().Where(c => c.Domain != "cas.sfu.ca"))
             {

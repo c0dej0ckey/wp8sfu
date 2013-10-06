@@ -99,6 +99,9 @@
     <Compile Include="Pages\BooksPage.xaml.cs">
       <DependentUpon>BooksPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\LibraryPage.xaml.cs">
+      <DependentUpon>LibraryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProtectedServiceBrowserPage.xaml.cs">
       <DependentUpon>ProtectedServiceBrowserPage.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,7 @@
     <Compile Include="Pages\LoginDetailsPage.xaml.cs">
       <DependentUpon>LoginDetailsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VMs\LibraryVM.cs" />
     <Compile Include="VMs\LoginDetailsVM.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -154,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Pages\BooksPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LibraryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
