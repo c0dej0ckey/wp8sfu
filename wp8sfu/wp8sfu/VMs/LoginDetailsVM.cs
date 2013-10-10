@@ -174,6 +174,7 @@ namespace wp8sfu.VMs
                 if (cookie.Name == "CASTGC")
                 {
                     //ServiceLocator.AddService<CookieCollection>(cookies);
+                    FlurryWP8SDK.Api.SetUserId(Settings.ComputingId);
                     sLogInStatus = false;
                     
                     

@@ -24,6 +24,8 @@ namespace wp8sfu
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
 
+        private const string API_KEY = "7HVYJQ2XBB7JS8Q9X7J9";
+        private const string VERSION = "1.0";
 
         /// <summary>
         /// Constructor for the Application object.
@@ -75,6 +77,8 @@ namespace wp8sfu
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             //try to login
+            FlurryWP8SDK.Api.StartSession(API_KEY);
+            FlurryWP8SDK.Api.SetVersion(VERSION);
             
         }
 
@@ -84,18 +88,21 @@ namespace wp8sfu
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            FlurryWP8SDK.Api.StartSession(API_KEY);
         }
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            FlurryWP8SDK.Api.EndSession();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            FlurryWP8SDK.Api.EndSession();
         }
 
         // Code to execute if a navigation fails
