@@ -51,10 +51,7 @@ namespace wp8sfu.VMs
                     path = path + "Campus_Guide_Podium_2.png";
                     break;
                 case "Burnaby Campus":
-                    path = path + "Campus_Guide_Galleria_3.png";
-                    break;
-                case "Burnaby Lots":
-                    path = path + "Campus_Guide_Galleria_3.png";
+                    path = path + "sfu-campus-map@2x.png";
                     break;
             }
 

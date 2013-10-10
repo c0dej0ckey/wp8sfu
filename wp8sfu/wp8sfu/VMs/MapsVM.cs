@@ -23,8 +23,8 @@ namespace wp8sfu.VMs
     {
         private List<string> mCampuses = new List<string>() { string.Empty, "Burnaby Campus", "Surrey Campus" };
         private List<string> mSurreyFloors = new List<string>() { string.Empty, "Galleria 3", "Galleria 4", "Galleria 5", "Podium 2" };
-        private List<string> mBuildings;
-        private string mSelectedBuilding;
+        private List<Room> mBuildings;
+        private Room mSelectedBuilding;
         private List<Room> mRooms;
         private string mSelectedFloor;
         private Room mSelectedRoom;
@@ -34,7 +34,7 @@ namespace wp8sfu.VMs
         {
             mRooms = new List<Room>();
 
-            mBuildings = new List<string>();
+            mBuildings = new List<Room>();
 
             string dir = Directory.GetCurrentDirectory();
             StreamReader reader = null;
@@ -51,7 +51,16 @@ namespace wp8sfu.VMs
                 Room room = new Room(data[0], data[1], int.Parse(data[2]), int.Parse(data[3]));
                 mRooms.Add(room);
             }
-            
+
+            path = @"wp8sfu;component/Assets/Maps/burnaby-campus-list.csv";
+            res = System.Windows.Application.GetResourceStream(new Uri(path, UriKind.Relative));
+            reader = new StreamReader(res.Stream);
+            while((line = reader.ReadLine()) != null)
+            {
+                string[] data = line.Split(',');
+                Room room = new Room(data[0], data[1], int.Parse(data[2]), int.Parse(data[3]));
+                mBuildings.Add(room);
+            }
 
         }
 
@@ -63,6 +72,10 @@ namespace wp8sfu.VMs
         private bool CanExecuteGetRoom(object parameter)
         {
             if(SelectedRoom != null)
+            {
+                return true;
+            }
+            else if(SelectedBuilding != null)
             {
                 return true;
             }
@@ -79,6 +92,7 @@ namespace wp8sfu.VMs
             else
             {
                 PhoneApplicationService.Current.State["SelectedEntity"] = "Burnaby Campus";
+                PhoneApplicationService.Current.State["SelectedRoom"] = SelectedBuilding;
             }
             NavigationService navigationService = ServiceLocator.GetService<NavigationService>();
             navigationService.Navigate(new Uri("/Pages/MapDetailsPage.xaml", UriKind.Relative));
@@ -93,10 +107,6 @@ namespace wp8sfu.VMs
                     if (SelectedCampus.Equals("Surrey Campus"))
                     {
                         return this.mSurreyFloors;
-                    }
-                    else if (SelectedCampus.Equals("Burnaby Campus"))
-                    {
-                        return this.mBuildings;
                     }
                 }
                 return null;
@@ -150,6 +160,7 @@ namespace wp8sfu.VMs
             {
                 this.mSelectedCampus = value;
                 OnPropertyChanged("Floors");
+                OnPropertyChanged("GetRoomCommand");
             }
         }
 
@@ -159,16 +170,20 @@ namespace wp8sfu.VMs
             set { this.mCampuses = value; }
         }
 
-        public List<string> Buildings
+        public List<Room> Buildings
         {
             get { return this.mBuildings; }
-            set { this.mBuildings = value; }
+            set { this.mBuildings = value;
+            OnPropertyChanged("GetRoomCommand");
+            }
         }
 
-        public string SelectedBuilding
+        public Room SelectedBuilding
         {
             get { return this.mSelectedBuilding; }
-            set { this.mSelectedBuilding = value; }
+            set { this.mSelectedBuilding = value;
+            OnPropertyChanged("GetRoomCommand");
+            }
         }
 
 

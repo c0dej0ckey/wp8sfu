@@ -55,8 +55,13 @@
                 
             </wptk:ListPicker>
             
-            <wptk:ListPicker x:Name="BuildingPicker" Grid.Row="1" Header="Building" ItemsSource="{Binding Buildings, Mode=TwoWay, UpdateSourceTrigger=Default}" SelectedItem="{Binding SelectedBuilding, Mode=TwoWay, UpdateSourceTrigger=Default}"
+            <wptk:ListPicker x:Name="BuildingPicker" Grid.Row="1" Header="Building" ItemsSource="{Binding Buildings, Mode=TwoWay, UpdateSourceTrigger=Default}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedBuilding, Mode=TwoWay, UpdateSourceTrigger=Default}"
                               Visibility="Collapsed">
+                <wptk:ListPicker.FullModeItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </wptk:ListPicker.FullModeItemTemplate>
                 
             </wptk:ListPicker>
 
