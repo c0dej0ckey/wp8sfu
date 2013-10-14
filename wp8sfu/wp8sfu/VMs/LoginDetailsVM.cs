@@ -120,6 +120,7 @@ namespace wp8sfu.VMs
         private void GetLoginResponseCallback(IAsyncResult asyncResult)
         {
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
+            //post logout
             HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asyncResult);
             Stream stream = response.GetResponseStream();
             StreamReader reader = new StreamReader(stream);

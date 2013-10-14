@@ -213,6 +213,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Assets\Maps\sfu-campus-map%402x.png" />
+    <Resource Include="Assets\Icons\pin-icon32x32.png" />
+    <Resource Include="Assets\Icons\settings-icon32x32.png" />
+    <Resource Include="Assets\Icons\update-icon32x32.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

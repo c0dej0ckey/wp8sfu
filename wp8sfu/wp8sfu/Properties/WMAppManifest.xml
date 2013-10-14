@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{775e34c8-2cd1-4c61-8077-28ce515fd8ed}" Title="SFU" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="PhoneApp1 author" Description="Sample description" Publisher="PhoneApp1" PublisherID="{9730a40e-7d3b-4ea4-a3b1-c98f0ea63512}">
+  <Languages xmlns="">
+    <Language code="en" />
+  </Languages>
+  <App xmlns="" ProductID="{775e34c8-2cd1-4c61-8077-28ce515fd8ed}" Title="SFU" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Scott Williams" Description="Sample description" Publisher="" PublisherID="{9730a40e-7d3b-4ea4-a3b1-c98f0ea63512}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -9,6 +12,7 @@
       <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
       <Capability Name="ID_CAP_SENSORS" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+      <Capability Name="ID_CAP_IDENTITY_DEVICE" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="Pages/MainPage.xaml" />

@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -19,9 +20,9 @@ namespace wp8sfu.VMs
 {
     public class ScheduleVM : INotifyPropertyChanged
     {
-        private List<Course> mCourses;
+        private ObservableCollection<Course> mCourses;
 
-        public List<Course> Courses
+        public ObservableCollection<Course> Courses
         {
             get { return this.mCourses; }
             set { this.mCourses = value; }
@@ -35,7 +36,7 @@ namespace wp8sfu.VMs
             IsolatedStorageFile fileStorage = IsolatedStorageFile.GetUserStoreForApplication();
             if (fileStorage.FileExists("classes.json"))
             {
-                Courses = Settings.LoadCourses();
+                Courses = new ObservableCollection<Course>(Settings.LoadCourses());
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
                         OnPropertyChanged("Courses");
@@ -60,7 +61,7 @@ namespace wp8sfu.VMs
         private void ExecuteRefreshSchedule(object parameter)
         {
             Settings.DeleteCourses();
-            Courses = new List<Course>();
+            Courses = new ObservableCollection<Course>();
 
             //TODO : CHECK FOR RIGHT COOKIE
             Cookie simsCookie = CookieService.GetCookieWithName("https%3a%2f%2fgo.sfu.ca%2fpsp%2fgoprd%2fsfu_site%2fentp%2frefresh");
@@ -134,7 +135,7 @@ namespace wp8sfu.VMs
             foreach (Cookie cookie in cookies)
                 CookieService.AddCookie(cookie);
             //Settings.GetStudentId();
-            string request2String = string.Format("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&INSTITUTION=SFUNV&STRM={0}", SemesterHelper.GetSemesterId());
+            string request2String = string.Format("https://sims.sfu.ca/psc/csprd_2/SFU_SITE/SA/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=&INSTITUTION=SFUNV&STRM={0}", SemesterHelper.GetSemesterId());
             HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create(request2String);
             request2.Method = "GET";
             request2.UserAgent = request.Headers["User Agent"];
@@ -243,7 +244,7 @@ namespace wp8sfu.VMs
 
             }
 
-            Courses = courses;
+            Courses =  new ObservableCollection<Course>(courses);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 OnPropertyChanged("Courses");
