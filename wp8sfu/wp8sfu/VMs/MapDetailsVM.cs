@@ -76,7 +76,7 @@ namespace wp8sfu.VMs
 
             int[] pixels = bitmap.Pixels;
 
-            var res = System.Windows.Application.GetResourceStream(new Uri(@"wp8sfu;component/Assets/Icons/pin-icon32x32.png", UriKind.Relative));
+            var res = System.Windows.Application.GetResourceStream(new Uri(@"wp8sfu;component/Assets/Icons/pinRed@2x.png", UriKind.Relative));
             Stream pinStream = res.Stream;
             byte[] data = new byte[pinStream.Length];
             pinStream.Read(data, 0, data.Length);
@@ -86,9 +86,9 @@ namespace wp8sfu.VMs
             WriteableBitmap pinBitmap = new WriteableBitmap(32,32);
             pinBitmap.SetSource(ms);
 
-            for(int i = 0; i < 32; i++)
+            for(int i = 0; i < 64; i++)
             {
-                for(int j = 0; j < 32; j++)
+                for(int j = 0; j < 78; j++)
                 {
                     Color pixelColor = pinBitmap.GetPixel(i, j);
 
@@ -99,11 +99,11 @@ namespace wp8sfu.VMs
                     if(alpha == 0 && red == 0 && blue == 0 && alpha == 0)
                     {
 
-                        bitmap.SetPixel(mSelectedRoom.X + i, mSelectedRoom.Y + j - 24, bitmap.GetPixel(mSelectedRoom.X + i, mSelectedRoom.Y - 24));
+                        bitmap.SetPixel(mSelectedRoom.X + i, mSelectedRoom.Y + j - 78, bitmap.GetPixel(mSelectedRoom.X + i, mSelectedRoom.Y - 78));
                     }
                     else
                     {
-                        bitmap.SetPixel(mSelectedRoom.X + i, mSelectedRoom.Y + j - 24, Convert.ToByte(alpha), Convert.ToByte(red), Convert.ToByte(green), Convert.ToByte(blue));    
+                        bitmap.SetPixel(mSelectedRoom.X + i, mSelectedRoom.Y + j - 78, Convert.ToByte(alpha), Convert.ToByte(red), Convert.ToByte(green), Convert.ToByte(blue));    
                     }
 
                     

@@ -91,7 +91,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Entities\BusRoute.cs" />
-    <Compile Include="Entities\SerializationCookie.cs" />
     <Compile Include="Pages\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -216,6 +215,7 @@
     <Resource Include="Assets\Icons\pin-icon32x32.png" />
     <Resource Include="Assets\Icons\settings-icon32x32.png" />
     <Resource Include="Assets\Icons\update-icon32x32.png" />
+    <Resource Include="Assets\Icons\pinRed%402x.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

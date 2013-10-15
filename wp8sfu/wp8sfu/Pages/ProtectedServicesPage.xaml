@@ -35,16 +35,22 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <ListBox x:Name="ServiceListBox" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService, Mode=TwoWay, UpdateSourceTrigger=Default}" FontSize="24" SelectionChanged="Service_Changed">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" >
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />  
+                        
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="0,15,0,15" Background="DarkGray" Width="Auto"  Orientation="Vertical">
+                        <StackPanel Margin="0,15,0,15" Background="Gray" Height="60"  Orientation="Vertical">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 
-                                <TextBlock Text="{Binding}" Margin="15,0,15,0" />
+                                <TextBlock Text="{Binding}" Margin="30 15 0 0 " Foreground="Black" />
                                 
                             </Grid>
                         </StackPanel>
@@ -52,7 +58,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             
-            <!--<phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True" Navigated="Browser_Navigated"    />-->
             
         </Grid>
     </Grid>
