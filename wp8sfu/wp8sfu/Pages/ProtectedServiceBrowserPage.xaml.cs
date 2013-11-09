@@ -46,7 +46,7 @@ namespace wp8sfu.Pages
                             "eval", string.Format("document.getElementById('computingId').value='{0}'; document.getElementById('password').value='{1}';document.forms[0].submit();", Settings.ComputingId, LoginDetailsVM.Password));
                     });
             }
-            else if (uri.OriginalString ==  "https://go.sfu.ca/psp/goprd/?cmd=login&errorPg=err&languageCd=ENG")
+            else if (uri.OriginalString == "https://sims-prd.sfu.ca/psc/csprd_1/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL?&")
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
@@ -69,7 +69,7 @@ namespace wp8sfu.Pages
                     browser.Navigate(new Uri("https://webct.sfu.ca/webct/urw/ssinboundCAS.siURN:X-WEBCT-VISTA-V1:ae0c1f73-8e3a-65d6-001c-5fd50753fb4e.snWebCT/cobaltMainFrame.dowebct?&allow=sfu,apache&app=WebCT"));
                     break;
                 case "go sfu":
-                    browser.Navigate(new Uri("https://go.sfu.ca/psp/goprd/SFU_SITE/ENTP/h/?tab=DEFAULT&allow=sfu,alumni,apache&renew=false"));
+                    browser.Navigate(new Uri("https://sims-prd.sfu.ca/psc/csprd_1/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL"));
                     break;
                 case "sfu connect":
                     browser.Navigate(new Uri("https://connect.sfu.ca/zimbra/mail#1"));
