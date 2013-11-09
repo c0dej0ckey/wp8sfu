@@ -5,7 +5,7 @@
     <Language code="en" />
   </Languages>
   <App xmlns="" ProductID="{775e34c8-2cd1-4c61-8077-28ce515fd8ed}" Title="SFU" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Scott Williams" Description="Sample description" Publisher="" PublisherID="{9730a40e-7d3b-4ea4-a3b1-c98f0ea63512}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\sfu-logo.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
@@ -20,9 +20,9 @@
     <Tokens>
       <PrimaryToken TokenID="PhoneApp1Token" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\sfu-logo.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\sfu-logo.png</BackgroundImageURI>
           <Title>SFU</Title>
           <BackContent>
           </BackContent>

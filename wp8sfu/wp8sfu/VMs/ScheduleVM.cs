@@ -135,7 +135,7 @@ namespace wp8sfu.VMs
             foreach (Cookie cookie in cookies)
                 CookieService.AddCookie(cookie);
             //Settings.GetStudentId();
-            string request2String = string.Format("https://sims-prd.sfu.ca/psc/csprd_1/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=556002593&INSTITUTION=SFUNV&STRM={0}", SemesterHelper.GetSemesterId());
+            string request2String = string.Format("https://sims-prd.sfu.ca/psc/csprd_1/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SS_ES_STUDY_LIST.GBL?Page=SS_ES_STUDY_LIST&Action=U&ACAD_CAREER=UGRD&EMPLID=&INSTITUTION=SFUNV&STRM={0}", SemesterHelper.GetSemesterId());
             HttpWebRequest request2 = (HttpWebRequest)HttpWebRequest.Create(request2String);
             request2.Method = "GET";
             request2.CookieContainer = new CookieContainer();

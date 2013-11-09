@@ -216,6 +216,7 @@
     <Resource Include="Assets\Icons\settings-icon32x32.png" />
     <Resource Include="Assets\Icons\update-icon32x32.png" />
     <Resource Include="Assets\Icons\pinRed%402x.png" />
+    <Resource Include="Assets\sfu-logo.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
