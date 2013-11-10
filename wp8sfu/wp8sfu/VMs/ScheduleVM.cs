@@ -243,12 +243,22 @@ namespace wp8sfu.VMs
                 courses.Add(course);
 
             }
-
+            foreach(Course course in courses)
+            {
+                if (course.Type == "Lecture")
+                {
+                    List<CourseOffering> offerings = course.CourseOfferings;
+                    offerings.RemoveAt(offerings.Count - 1);
+                }
+                
+            }
             Courses =  new ObservableCollection<Course>(courses);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 OnPropertyChanged("Courses");
             });
+            
+
             Settings.SaveCourses(courses);
 
         }
