@@ -22,6 +22,7 @@ namespace wp8sfu.VMs
     public class ScheduleVM : INotifyPropertyChanged
     {
         private ObservableCollection<Course> mCourses;
+        private bool mIsLoadingCourses;
 
         public ObservableCollection<Course> Courses
         {
@@ -45,13 +46,45 @@ namespace wp8sfu.VMs
             }
             else
             {
-                GetClasses();
+                var available = NetworkInterface.GetIsNetworkAvailable();
+#if DEBUG
+                    available = true;
+#endif
+                if (available)
+                {
+                    mIsLoadingCourses = true;
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        OnPropertyChanged("Loading");
+                    });
+            
+                    GetClasses();
+                }
+                else
+                {
+                    MessageBox.Show("No internet connection available. Courses will not load without it.");
+                }
             }
         }
 
         public ICommand RefreshCommand
         {
             get { return new DelegateCommand(ExecuteRefreshSchedule, CanExecuteRefreshSchedule); }
+        }
+
+        public Visibility Loading
+        {
+            get
+            {
+                if(mIsLoadingCourses)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
         }
 
         private bool CanExecuteRefreshSchedule(object parameter)
@@ -73,10 +106,16 @@ namespace wp8sfu.VMs
                 {
                     var available = NetworkInterface.GetIsNetworkAvailable();
 #if DEBUG
-                    available = false;
+                    available = true;
 #endif
                     if (available)
                     {
+                        mIsLoadingCourses = true;
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            OnPropertyChanged("Loading");
+                        });
+            
                         GetClasses();
                     }
                     else
@@ -252,6 +291,12 @@ namespace wp8sfu.VMs
                 }
                 classIndex++;
                 courses.Add(course);
+                mIsLoadingCourses = false;
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    OnPropertyChanged("Courses");
+                });
+            
 
             }
             foreach(Course course in courses)

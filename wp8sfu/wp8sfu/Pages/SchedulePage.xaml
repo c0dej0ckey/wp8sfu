@@ -34,13 +34,13 @@
                     </StackPanel>
                 </Button>
             </Grid>
-                
+
             <TextBlock Text="schedule" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
+            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Loading, Mode=TwoWay, UpdateSourceTrigger=Default}" Margin="136,279,147,278" Width="173" />
             <ListBox ItemsSource="{Binding Courses, Mode=TwoWay, UpdateSourceTrigger=Default}" HorizontalContentAlignment="Stretch" >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
@@ -50,18 +50,18 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Background="Gray"  Margin="0 5 0 5">
-                            
+
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"  />
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5 5 5 5">
-                                    <TextBlock Text="{Binding ClassName}" FontSize="20" />    
+                                    <TextBlock Text="{Binding ClassName}" FontSize="20" />
                                     <TextBlock Text="{Binding Type}" FontStyle="Italic" />
                                 </StackPanel>
-                                
+
                                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5 5 5 5">
                                     <ItemsControl ItemsSource="{Binding CourseOfferings}" Foreground="Black">
                                         <ItemsControl.ItemTemplate>
@@ -71,7 +71,7 @@
                                                         <TextBlock Text="{Binding StartTime}" />
                                                         <TextBlock Text=" - " />
                                                         <TextBlock Text="{Binding EndTime}" />
-                                                    
+
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="Location: " />
@@ -87,16 +87,16 @@
                                             <TextBlock Text="Section:   " FontStyle="Italic" />
                                             <TextBlock Text="{Binding Section}" />
                                         </StackPanel>
-                                        
+
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Professor: " FontStyle="Italic" />
                                             <TextBlock Text="{Binding Instructor}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
-                                
+
                             </Grid>
-                            
+
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Phone.Net.NetworkInformation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -112,7 +113,7 @@ namespace wp8sfu.VMs
 
             var available = NetworkInterface.GetIsNetworkAvailable();
 #if DEBUG
-            available = false;
+            available = true;
 #endif
             if (available)
             {

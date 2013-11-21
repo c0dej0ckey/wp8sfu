@@ -18,6 +18,7 @@ namespace wp8sfu.Pages
     {
         private string mService;
         private WebBrowser mBrowser;
+        private ProgressBar mProgressBar;
 
         public ProtectedServiceBrowserPage()
         {
@@ -29,7 +30,9 @@ namespace wp8sfu.Pages
                 navigationService.RemoveBackEntry();
             }
             mBrowser = this.FindName("Browser") as WebBrowser;
+            mProgressBar = this.FindName("BrowserProgressBar") as ProgressBar;
             mBrowser.Visibility = Visibility.Collapsed;
+            mProgressBar.Visibility = Visibility.Visible;
             mBrowser.LoadCompleted += mBrowser_LoadCompleted;
             SetBrowserNavigationUrl(mService, mBrowser);
         }
@@ -57,6 +60,7 @@ namespace wp8sfu.Pages
             else
             {
                 mBrowser.Visibility = Visibility.Visible;
+                mProgressBar.Visibility = Visibility.Collapsed;
             }
         }
 

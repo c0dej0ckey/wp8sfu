@@ -24,6 +24,7 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <phone:WebBrowser x:Name="Browser" Visibility="{Binding BrowserVisibility}"  IsScriptEnabled="True"    />
+            <ProgressBar x:Name="BrowserProgressBar" IsIndeterminate="True" Visibility="{Binding Loading, Mode=TwoWay, UpdateSourceTrigger=Default}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="148,382,130,382" Width="178" />
         </Grid>
     </Grid>
 
