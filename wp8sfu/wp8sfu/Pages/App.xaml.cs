@@ -51,7 +51,7 @@ namespace wp8sfu
             if (Debugger.IsAttached)
             {
                 // Display the current frame rate counters.
-                Application.Current.Host.Settings.EnableFrameRateCounter = true;
+                Application.Current.Host.Settings.EnableFrameRateCounter = false;
 
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
@@ -76,6 +76,7 @@ namespace wp8sfu
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+
             //try to login
             FlurryWP8SDK.Api.StartSession(API_KEY);
             FlurryWP8SDK.Api.SetVersion(VERSION);

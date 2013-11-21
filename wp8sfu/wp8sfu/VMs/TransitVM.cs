@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Phone.Net.NetworkInformation;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,19 @@ namespace wp8sfu.VMs
 
         public TransitVM()
         {
-            GetTransitTimes();
+            var available = NetworkInterface.GetIsNetworkAvailable();
+#if DEBUG
+            available = false;
+#endif
+            if (available)
+            {
+
+                GetTransitTimes();
+            }
+            else
+            {
+                MessageBox.Show("No internet connection is available. Transit times will not load.");
+            }
         }
 
         public ObservableCollection<BusRoute> BusRoutes

@@ -14,6 +14,7 @@ using System.IO;
 using HtmlAgilityPack;
 using System.Windows;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace wp8sfu.VMs
 {
@@ -29,8 +30,20 @@ namespace wp8sfu.VMs
             {
                 if (Settings.ComputingId != string.Empty && Settings.Password != string.Empty)
                 {
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
-                    IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+                    var available = !NetworkInterface.GetIsNetworkAvailable();
+#if DEBUG
+                    available = true;
+#endif
+                    if (!available)
+                    {
+                        MessageBox.Show("No internet connection is available. Some parts of the app may behave unexpectedly.");
+                        
+                    }
+                    else
+                    {
+                        HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
+                        IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+                    }
                 }
             }
         }

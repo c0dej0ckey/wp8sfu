@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Phone.Net.NetworkInformation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -70,8 +71,18 @@ namespace wp8sfu.VMs
             {
                 if (simsCookie.Expired)
                 {
-
-                    GetClasses();
+                    var available = NetworkInterface.GetIsNetworkAvailable();
+#if DEBUG
+                    available = false;
+#endif
+                    if (available)
+                    {
+                        GetClasses();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No internet connection available. Courses will not load without it.");
+                    }
                 }
                 else
                 {

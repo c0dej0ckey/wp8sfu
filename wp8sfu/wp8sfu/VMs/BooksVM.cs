@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Phone.Net.NetworkInformation;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -31,22 +32,34 @@ namespace wp8sfu.VMs
                 if (courses == null || courses.Count() == 0)
                 {
                     //error refresh schedule
+                    MessageBox.Show("No courses found. Please refresh courses before continuing");
                 }
                 else
                 {
-                    HttpWebRequest request = null;
-                    foreach (Course course in courses)
+                    var available = NetworkInterface.GetIsNetworkAvailable();
+#if DEBUG
+                    available = false;
+#endif
+                    if (!available)
                     {
-                        request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://sfu.collegestoreonline.com/ePOS?form=shared3/textbooks/json/json_books.html&term={0}&dept={1}&crs={2}&sec={3}&go=Go", SemesterHelper.GetSemesterId(), Regex.Split(course.ClassName, @"(\w+)(\d)")[0].Trim().ToLower(), Regex.Split(course.ClassName, @"(\d+)")[1], course.Section));
-                        request.Method = "GET";
-                        request.BeginGetResponse(new AsyncCallback(GetBookResponse), request);
+                        MessageBox.Show("No internet connection is available. Please connect to the internet before continuing.");
                     }
-
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    else
                     {
+                        HttpWebRequest request = null;
+                        foreach (Course course in courses)
+                        {
+                            request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://sfu.collegestoreonline.com/ePOS?form=shared3/textbooks/json/json_books.html&term={0}&dept={1}&crs={2}&sec={3}&go=Go", SemesterHelper.GetSemesterId(), Regex.Split(course.ClassName, @"(\w+)(\d)")[0].Trim().ToLower(), Regex.Split(course.ClassName, @"(\d+)")[1], course.Section));
+                            request.Method = "GET";
+                            request.BeginGetResponse(new AsyncCallback(GetBookResponse), request);
+                        }
 
-                        OnPropertyChanged("Books");
-                    });
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+
+                            OnPropertyChanged("Books");
+                        });
+                    }
 
                 }
 

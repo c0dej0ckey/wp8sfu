@@ -110,9 +110,20 @@ namespace wp8sfu.VMs
                     OnPropertyChanged("Loading");
                 });
 
+            var available = NetworkInterface.GetIsNetworkAvailable();
+#if DEBUG
+            available = false;
+#endif
+            if (available)
+            {
 
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
-            IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://cas.sfu.ca/cgi-bin/WebObjects/cas.woa/wa/login");
+                IAsyncResult response = request.BeginGetResponse(new AsyncCallback(GetLoginResponseCallback), request);
+            }
+            else
+            {
+                MessageBox.Show("No internet connection is available.");
+            }
 
 
         }

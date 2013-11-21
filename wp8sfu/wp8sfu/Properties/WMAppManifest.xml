@@ -4,7 +4,7 @@
   <Languages xmlns="">
     <Language code="en" />
   </Languages>
-  <App xmlns="" ProductID="{775e34c8-2cd1-4c61-8077-28ce515fd8ed}" Title="SFU" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Scott Williams" Description="Sample description" Publisher="" PublisherID="{9730a40e-7d3b-4ea4-a3b1-c98f0ea63512}">
+  <App xmlns="" ProductID="{775e34c8-2cd1-4c61-8077-28ce515fd8ed}" Title="SFU" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Scott Williams" Description="The SFU app is made to engage the community. Whether you're a student, faculty member or a&#xD;&#xA;visitor, the SFU app provides a unique Windows Phone  experience using Simon Fraser University's &#xD;&#xA;services. &#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" Publisher="" PublisherID="{9730a40e-7d3b-4ea4-a3b1-c98f0ea63512}">
     <IconPath IsRelative="true" IsResource="false">Assets\sfu-logo.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
