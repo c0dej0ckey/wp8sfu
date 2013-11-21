@@ -76,7 +76,7 @@ namespace wp8sfu.Pages
                     browser.Navigate(new Uri("https://sims-prd.sfu.ca/psc/csprd_1/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL"));
                     break;
                 case "sfu connect":
-                    browser.Navigate(new Uri("https://connect.sfu.ca/zimbra/mail#1"));
+                    browser.Navigate(new Uri("https://connect.sfu.ca/zimbra/m/zmain#1"));
                     break;
                 case "sims":
                     browser.Navigate(new Uri("http://sakai.sfu.ca/portal/login"));
